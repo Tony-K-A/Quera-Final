@@ -178,4 +178,22 @@ class Manage:
                         print(f"File does not exist: {file_path}")
                         return False
                 return True
-            
+
+    # Module to show users information
+
+    def show_user_info(self):
+        try:
+            with open("users.json", "r") as f:
+                users = json.load(f)
+                for user in users:
+                    for key, value in user.items():
+                        print(f"{key} : {value}")
+        except FileNotFoundError:
+            print(f"file does not exist in path {file_path}")
+        else:
+            for user in users:
+                for key, value in user.items():
+                    print(f"{key} : {value}")
+                print("-------------------------------")
+
+    

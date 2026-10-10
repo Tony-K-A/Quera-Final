@@ -33,4 +33,3 @@ authority = 'manager'
 match authority:
     case "manager":
         manager = Manage()
-        manager.edit_member_info('active_status', False, "AmirZH")
