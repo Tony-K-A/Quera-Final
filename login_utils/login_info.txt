@@ -1,0 +1,107 @@
+[
+    {
+        "username": "manager1",
+        "password": "Manager@123",
+        "authority": "manager"
+    },
+    {
+        "username": "coach1",
+        "password": "Coach@101",
+        "authority": "coach"
+    },
+    {
+        "username": "coach2",
+        "password": "Coach@102",
+        "authority": "coach"
+    },
+    {
+        "username": "coach3",
+        "password": "Coach@103",
+        "authority": "coach"
+    },
+    {
+        "username": "coach4",
+        "password": "Coach@104",
+        "authority": "coach"
+    },
+    {
+        "username": "coach5",
+        "password": "Coach@105",
+        "authority": "coach"
+    },
+    {
+        "username": "gym_user1",
+        "password": "GymUser@101",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user2",
+        "password": "GymUser@102",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user3",
+        "password": "GymUser@103",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user4",
+        "password": "GymUser@104",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user5",
+        "password": "GymUser@105",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user6",
+        "password": "GymUser@106",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user7",
+        "password": "GymUser@107",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user8",
+        "password": "GymUser@108",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user9",
+        "password": "GymUser@109",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user10",
+        "password": "GymUser@110",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user11",
+        "password": "GymUser@111",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user12",
+        "password": "GymUser@112",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user13",
+        "password": "GymUser@113",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user14",
+        "password": "GymUser@114",
+        "authority": "gym_user"
+    },
+    {
+        "username": "gym_user15",
+        "password": "GymUser@115",
+        "authority": "gym_user"
+    }
+]
