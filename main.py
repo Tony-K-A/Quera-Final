@@ -2,7 +2,7 @@ import login_utils.login as log
 from login_utils.login import login
 from manage_utils.manage import Manage
 
-
+"""
 log.show_menu()
 
 login_choice = int(input())
@@ -27,11 +27,10 @@ match login_choice:
     case 4:
         exit()
 """
+
+
 authority = 'manager'
 match authority:
     case "manager":
         manager = Manage()
-
-        manager.show_panel()
-
-   """     
+        manager.edit_member_info('active_status', False, "AmirZH")

@@ -7,7 +7,7 @@ def show_menu():
     print("3.Gym user login.")
     print("4.Exit menu.")
 
-def login(username, password, authority):
+def login(username, password, authority, status = None):
     file_path = Path(__file__).resolve().parent / "login_info.json"
 
     try:
@@ -24,6 +24,8 @@ def login(username, password, authority):
     
     for user in users:
         if (user["username"] == username and user["password"] == password and user["authority"] == authority):
-            return True
-    
+            if user["authority"] == "manager":
+                return True
+            if user["status"] == "active":
+                return True 
     return False
