@@ -23,7 +23,7 @@ class Manage:
     def add_member(self, authority, name, username, password, email, active_status):
         if (authority == "coach"):
             try:
-                with open("users.json", "r") as f:
+                with open("users.json", "r", encoding="utf-8") as f:
                     coaches = json.load(f)
                     
             except FileNotFoundError:
@@ -42,7 +42,7 @@ class Manage:
                         }
                 coaches.append(coach)
             try: 
-                with open("users.json", "w") as f:
+                with open("users.json", "w", encoding="utf-8") as f:
                     json.dump(coaches, f, indent=4)
             except FileNotFoundError:
                 print(f"File does not exist: {file_path}")
@@ -80,12 +80,13 @@ class Manage:
     # Module to edit user info including "name" - "email" - "password" - "active_status"
 
     def edit_member_info(self, section, amount, username):
+
         match section:
 
             case "name":
 
                 try:
-                    with open("users.json", "r") as f:
+                    with open("users.json", "r", encoding="utf-8") as f:
                         users = json.load(f)
                 except FileNotFoundError:
                     print(f"File does not exist: {file_path}")
@@ -177,5 +178,4 @@ class Manage:
                         print(f"File does not exist: {file_path}")
                         return False
                 return True
-
-    
+            
