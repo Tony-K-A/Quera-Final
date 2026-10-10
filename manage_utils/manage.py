@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-file_path = Path(__file__).resolve().parent / "users.txt"
+file_path = Path(__file__).resolve().parent / "users.json"
 
 class Manage:
 

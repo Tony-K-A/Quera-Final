@@ -2,7 +2,7 @@ import login_utils.login as log
 from login_utils.login import login
 from manage_utils.manage import Manage
 
-"""
+
 log.show_menu()
 
 login_choice = int(input())
@@ -34,4 +34,4 @@ match authority:
 
         manager.show_panel()
 
-        manager.add_member('coach', 'amir', 'amirPZH','somethingpass', 'amir.piroozadeh@gmail.com', 'active')
+   """     

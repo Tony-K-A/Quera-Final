@@ -8,7 +8,7 @@ def show_menu():
     print("4.Exit menu.")
 
 def login(username, password, authority):
-    file_path = Path(__file__).resolve().parent / "login_info.txt"
+    file_path = Path(__file__).resolve().parent / "login_info.json"
 
     try:
         with open(file_path, "r", encoding="utf-8") as f:
