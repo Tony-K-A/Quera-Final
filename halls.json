@@ -1,0 +1,24 @@
+[
+    {
+        "name": "Green Leaves",
+        "capacity": 80,
+        "tools": [
+            "bicycle",
+            "treadmil",
+            "weights",
+            "press_tools"
+        ],
+        "hall_status": true
+    },
+    {
+        "name": "Persia",
+        "capacity": 100,
+        "tools": [
+            "Elepticals",
+            "Treadmils",
+            "Bicycles",
+            "Weights"
+        ],
+        "hall_status": true
+    }
+]
