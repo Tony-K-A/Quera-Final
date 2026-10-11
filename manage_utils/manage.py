@@ -12,7 +12,11 @@ class Manage:
                     self.file= json.load(f)        
             except FileNotFoundError:
                     raise FileNotFoundError (f"File does not exist: {file_path}")
-
+            try:
+                with open(file_path_hall, "r", encoding="utf-8") as f:
+                    self.halls = json.load(f)
+            except FileNotFoundError:
+                    raise FileNotFoundError(f"File not found in path: {file_path_hall}")
     @staticmethod
     def show_panel():
         print("1. Users management")
@@ -130,116 +134,81 @@ class Manage:
         print("Enter tools in a sentence seperated by ','")
         if isinstance(tools, str):
             tools = [tool.strip() for tool in tools.split(",")]
-        try:
-            with open("halls.json", "r", encoding="utf-8") as f:
-                halls = json.load(f)
-        except FileNotFoundError:
-            print(f"File not found in path: {file_path_hall}")
-            return False
-        else:
             hall = {
                 "name" : name,
                 "capacity" : capacity,
                 "tools" : tools,
                 "hall_status" : hall_status
             }
-            halls.append(hall)
-            try: 
-                with open("halls.json", "w") as f:
-                    json.dump(halls, f, indent=4)
-            except FileNotFoundError:
-                print(f"File not found in path: {file_path_hall}")
-                return False
-
+            self.halls.append(hall) 
+            with open(file_path_hall, "w") as f:
+                json.dump(self.halls, f, indent=4)
     # Edit hall information by taking name of the hall as a key
 
     def edit_hall_info(self, name, choice, new_amount):
         match choice:
             case "name":
-                try:
-                    with open("halls.json", "r") as f:
-                        halls = json.load(f)
-                except FileNotFoundError:
-                    print(f"File not found in path {file_path_hall}")
-                    return False
-                else:
-                    for hall in halls:
+                    found=False
+                    for hall in self.halls:
                         if hall["name"] == name:
                             hall["name"] = new_amount
+                            found=True
                             break
-                        else:
-                            pass
-                    with open("halls.json", "w") as f:    
-                        json.dump(halls, f, indent=4)
+                    if not found:
+                            print("hall didn't found!")
+                            return False
+                    with open(file_path_hall, "w") as f:    
+                        json.dump(self.halls, f, indent=4)
+                    return True
 
             case "capacity":
-
-                try:
-                    with open("halls.json", "r") as f:
-                        halls = json.load(f)
-                except FileNotFoundError:
-                    print(f"File not found in path {file_path_hall}")
-                    return False
-                else:
-                    for hall in halls:
+                    found=False
+                    for hall in self.halls:
                         if hall["name"] == name:
                             hall["capacity"] = new_amount
+                            found=True
                             break
-                        else:
-                            pass
-                    with open("halls.json", "w") as f:    
-                        json.dump(halls, f, indent=4)
+                    if not found:
+                          print("hall didn't found!")
+                          return False
+                    with open(file_path_hall, "w") as f:    
+                        json.dump(self.halls, f, indent=4)
+                    return True
 
             case "tools":
-
+                found=False
                 if isinstance(new_amount, str):
                     tools = [tool.strip() for tool in new_amount.split(",")]   
-                try:
-                    with open("halls.json", "r") as f:
-                        halls = json.load(f)
-                except FileNotFoundError:
-                    print(f"File not found in path {file_path_hall}")
-                    return False
-                else:
-                    for hall in halls:
+                for hall in self.halls:
                         if hall["name"] == name:
                             hall["tools"] = tools
+                            found=True
                             break
-                        else:
-                            pass
-                    with open("halls.json", "w") as f:    
-                        json.dump(halls, f, indent=4)
+                if not found:
+                    print("hall didn't found!")
+                    return False
+                with open(file_path_hall, "w") as f:    
+                    json.dump(self.halls, f, indent=4)
+                return True
 
             case "hall_status":
-
-                try:
-                    with open("halls.json", "r") as f:
-                        halls = json.load(f)
-                except FileNotFoundError:
-                    print("File halls.json not found.")
-                    return False
-                for hall in halls:
+                found=False
+                for hall in self.halls:
                     if hall["name"] == name:
                         hall["hall_status"] = new_amount
+                        found=True
                         break
-                    else:
-                        print("Name of the hall not found!")
-                        return False
-                with open("halls.json", "w") as f:
-                    json.dump(halls, f, indent=4)
+                if not found:
+                    print("Name of the hall not found!")
+                    return False
+                with open(file_path_hall, "w") as f:
+                    json.dump(self.halls, f, indent=4)
                 return True
 
     # Show halls general info
 
     def show_hall_info(self):
-        try:
-            with open("halls.json", "r", encoding="utf-8") as f:
-                halls = json.load(f)
-        except FileNotFoundError:
-            print(f"File not found in path: {file_path_hall}")
-            return False
-        else:
-            for hall in halls:
+            for hall in self.halls:
                 for key, value in hall.items():
                     print(f"{key} : {value}")
                 print("---------------------------------------------------------------------------------------------------------------------------------------------------------------")
