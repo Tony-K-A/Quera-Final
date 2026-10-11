@@ -33,3 +33,4 @@ authority = 'manager'
 match authority:
     case "manager":
         manager = Manage()
+        manager.add_hall("Persia", 100, "Elepticals, Treadmils, Bicycles, Weights", True)

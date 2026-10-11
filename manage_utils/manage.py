@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 file_path = Path(__file__).resolve().parent / "users.json"
-
+file_path_hall = Path(__file__).resolve().parent / "halls.json"
 
 class Manage:
 
@@ -31,7 +31,8 @@ class Manage:
                 return False  
             else:
                 if any(coach.get("username") == username for coach in coaches):
-                    raise ValueError(f"Username '{username}' already exists!")
+                    print(f"Username '{username}' already exists!")
+                    return False
                 coach = {
                         'name' : name,
                         'authority' : authority, 
@@ -196,4 +197,42 @@ class Manage:
                     print(f"{key} : {value}")
                 print("-------------------------------")
 
-    
+    # Add hall
+
+    def add_hall(self, name, capacity, tools, hall_status):
+        print("Enter tools in a sentence seperated by ','")
+        if isinstance(tools, str):
+            tools = [tool.strip() for tool in tools.split(",")]
+        try:
+            with open("halls.json", "r", encoding="utf-8") as f:
+                halls = json.load(f)
+        except FileNotFoundError:
+            print(f"File not found in path: {file_path_hall}")
+            return False
+        else:
+            hall = {
+                "name" : name,
+                "capacity" : capacity,
+                "tools" : tools,
+                "hall_status" : hall_status
+            }
+            halls.append(hall)
+            try: 
+                with open("halls.json", "w") as f:
+                    json.dump(halls, f, indent=4)
+            except FileNotFoundError:
+                print(f"File not found in path: {file_path_hall}")
+                return False
+
+    # Edit hall information by taking name of the hall as a key
+
+    def edit_hall_info(self, name, choice, new_amount):
+        match choice:
+            case "name":
+                pass
+            case "capacity":
+                pass
+            case "tools":
+                pass
+            case "hall_status":
+                pass
