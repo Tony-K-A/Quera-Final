@@ -7,7 +7,11 @@ file_path = Path(__file__).resolve().parent / "users.json"
 class Manage:
 
     def __init__(self):
-        pass
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    self.file= json.load(f)        
+            except FileNotFoundError:
+                    raise FileNotFoundError (f"File does not exist: {file_path}")
 
     @staticmethod
     def show_panel():
@@ -22,15 +26,7 @@ class Manage:
 
     def add_member(self, authority, name, username, password, email, active_status):
         if (authority == "coach"):
-            try:
-                with open("users.json", "r", encoding="utf-8") as f:
-                    coaches = json.load(f)
-                    
-            except FileNotFoundError:
-                print(f"File does not exist: {file_path}")
-                return False  
-            else:
-                if any(coach.get("username") == username for coach in coaches):
+                if any(coach.get("username") == username for coach in self.file):
                     raise ValueError(f"Username '{username}' already exists!")
                 coach = {
                         'name' : name,
@@ -40,23 +36,12 @@ class Manage:
                         'email' : email, 
                         'active_status' : active_status
                         }
-                coaches.append(coach)
-            try: 
-                with open("users.json", "w", encoding="utf-8") as f:
-                    json.dump(coaches, f, indent=4)
-            except FileNotFoundError:
-                print(f"File does not exist: {file_path}")
-                return False
-
+                self.file.append(coach)
+                with open(file_path, "w", encoding="utf-8") as f:
+                    json.dump(self.file, f, indent=4)
+                return True
         elif (authority == "gym_user"):
-            try:
-                with open("users.json", "r") as f:
-                    coaches = json.load(f)
-            except FileNotFoundError:
-                print(f"File does not exist: {file_path}")
-                return False  
-            else:
-                if any(coach.get("username") == username for coach in coaches):
+                if any(coach.get("username") == username for coach in self.file):
                     raise ValueError(f"Username '{username}' already exists!")
                 coach = {
                     'authority' : authority,
@@ -66,13 +51,10 @@ class Manage:
                     'email' : email, 
                     'active_status' : active_status
                     }
-                coaches.append(coach)
-                try: 
-                    with open("users.json", "w") as f:
-                        json.dump(coaches, f, indent=4)
-                except FileNotFoundError:
-                    print(f"File does not exist: {file_path}")
-                    return False
+                self.file.append(coach)
+                with open(file_path, "w") as f:
+                    json.dump(self.file, f, indent=4)
+                return True
         else:
             print("Invalid authority! ")
             return False
@@ -82,118 +64,64 @@ class Manage:
     def edit_member_info(self, section, amount, username):
 
         match section:
-
             case "name":
-
-                try:
-                    with open("users.json", "r", encoding="utf-8") as f:
-                        users = json.load(f)
-                except FileNotFoundError:
-                    print(f"File does not exist: {file_path}")
-                    return False  
-                else:
-                    for user in users:
+                    found=False
+                    for user in self.file:
                         if(user['username'] == username):
                             user['name'] = amount
+                            found=True
                             break
-                        else:
+                    if not found:
                             print("Username not found.")
                             return False
-                    try:
-                        with open("users.json", "w", encoding="utf-8") as f:
-                            json.dump(users, f, indent=4)
-                    except FileNotFoundError:
-                        print(f"File does not exist: {file_path}")
-                        return False
-                return True
-            
+                    with open(file_path, "w", encoding="utf-8") as f:
+                            json.dump(self.file, f, indent=4)
+                    return True
             case "password":
-
-                try:
-                    with open("users.json", "r", encoding="utf-8") as f:
-                        users = json.load(f)
-                except FileNotFoundError:
-                    print(f"File does not exist: {file_path}")
-                    return False  
-                else:
-                    for user in users:
+                    found=False    
+                    for user in self.file:
                         if(user['username'] == username):
                             user['password'] = amount
+                            found=True
                             break
-                        else:
+                    if not found:
                             print("Username not found.")
                             return False
-                    try:
-                        with open("users.json", "w", encoding="utf-8") as f:
-                            json.dump(users, f, indent=4)
-                    except FileNotFoundError:
-                        print(f"File does not exist: {file_path}")
-                        return False
-                return True    
-
+                    with open(file_path, "w", encoding="utf-8") as f:
+                            json.dump(self.file, f, indent=4)
+                    return True
             case "email":
-                
-                try:
-                    with open("users.json", "r", encoding="utf-8") as f:
-                        users = json.load(f)
-                except FileNotFoundError:
-                    print(f"File does not exist: {file_path}")
-                    return False  
-                else:
-                    for user in users:
+                    found=False  
+                    for user in self.file:
                         if(user['username'] == username):
                             user["email"] = amount
+                            found=True 
                             break
-                        else:
+                    if not found:
                             print("Username not found.")
                             return False
-                    try:
-                        with open("users.json", "w", encoding="utf-8") as f:
-                            json.dump(users, f, indent=4)
-                    except FileNotFoundError:
-                        print(f"File does not exist: {file_path}")
-                        return False
-                return True      
-
+                    with open(file_path, "w", encoding="utf-8") as f:
+                            json.dump(self.file, f, indent=4)
+                    return True
             case "active_status":
-
-                try:
-                    with open("users.json", "r", encoding="utf-8") as f:
-                        users = json.load(f)
-                except FileNotFoundError:
-                    print(f"File does not exist: {file_path}")
-                    return False  
-                else:
-                    for user in users:
+                    found=False  
+                    for user in self.file:
                         if(user['username'] == username):
                             user["active_status"] = amount
+                            found=True 
                             break
-                        else:
+                    if not found:
                             print("Username not found.")
                             return False
-                    try:
-                        with open("users.json", "w", encoding="utf-8") as f:
-                            json.dump(users, f, indent=4)
-                    except FileNotFoundError:
-                        print(f"File does not exist: {file_path}")
-                        return False
-                return True
-
+                    with open(file_path, "w", encoding="utf-8") as f:
+                            json.dump(self.file, f, indent=4)
+                    return True
     # Module to show users information
 
     def show_user_info(self):
-        try:
-            with open("users.json", "r") as f:
-                users = json.load(f)
-                for user in users:
+                for user in self.file:
                     for key, value in user.items():
                         print(f"{key} : {value}")
-        except FileNotFoundError:
-            print(f"file does not exist in path {file_path}")
-        else:
-            for user in users:
-                for key, value in user.items():
-                    print(f"{key} : {value}")
-                print("-------------------------------")
+                    print("-------------------------------")
 
     
