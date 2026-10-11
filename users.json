@@ -14,5 +14,29 @@
         "password": "ajibpass",
         "email": "tony@yahoo.com",
         "active_status": true
+    },
+    {
+        "name": "Sara",
+        "authority": "coach",
+        "username": "SarDal123",
+        "password": "123456789",
+        "email": "sara.daliri@yahoo.com",
+        "active_status": true
+    },
+    {
+        "name": "Hani",
+        "authority": "coach",
+        "username": "HRambod",
+        "password": "hani@Rami",
+        "email": "haniram@yahoo.com",
+        "active_status": true
+    },
+    {
+        "authority": "gym_user",
+        "name": "Taha",
+        "username": "Taha123",
+        "password": "somepass@asd",
+        "email": "taha@yahoo.com",
+        "active_status": true
     }
 ]

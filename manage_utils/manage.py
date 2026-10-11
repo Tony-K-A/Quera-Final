@@ -3,6 +3,7 @@ from pathlib import Path
 
 file_path = Path(__file__).resolve().parent / "users.json"
 file_path_hall = Path(__file__).resolve().parent / "halls.json"
+file_path_classes = Path(__file__).resolve().parent / "classes.json"
 
 class Manage:
 
@@ -316,3 +317,65 @@ class Manage:
                 for key, value in hall.items():
                     print(f"{key} : {value}")
                 print("---------------------------------------------------------------------------------------------------------------------------------------------------------------")
+
+    # Classes Section
+    # Add classes
+
+    def add_class(self, name, class_type, coach_user, hall, date, time, capacity):
+        class_types = ["gym", "crossfit", "fitness", "yoga"]
+        if class_type in class_types:
+            pass
+        else:
+            print("Mentioned class type is not valid! ")
+            return False
+    
+        try:
+            with open("classes.json", "r") as f:
+                classes = json.load(f)
+        except FileNotFoundError:
+            print(f"File not found in path {file_path_classes}")
+        else:
+            h = open("halls.json", "r")
+            c = open("users.json", "r")
+            halls = json.load(h)
+            coaches = json.load(c)
+
+            hall_key = 0
+            coach_key = 0
+
+            for hal in halls:
+                for key, value in hal.items():
+                    if hal[key] == hall:
+                        if hal["hall_status"] == True:
+                            hall_key = 1
+                for coach in coaches:
+                    for key, value in coach.items():
+                        if coach[key] == coach_user:
+                            if coach["active_status"] == True:
+                                coach_key = 1
+
+                if (coach_key == 1 and hall_key == 1):
+                    clas = {
+                        "title" : name,
+                        "class_type" : class_type,
+                        "coach" : coach_user,
+                        "sport_hall" : hall,
+                        "class_date" : date,
+                        "class_time" : time,
+                        "capacity" : capacity
+                    }
+                    classes.append(clas)
+                else:
+                    if coach_key != 1:
+                        print("Coach status is not active! ")
+                        return False
+                    else:
+                        print("Hall status in not active!")
+                        return False
+
+        finally:
+            with open("classes.json", "w") as f:
+                json.dump(classes, f, indent=4)
+            h.close()
+            c.close()
+
