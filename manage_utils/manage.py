@@ -229,10 +229,90 @@ class Manage:
     def edit_hall_info(self, name, choice, new_amount):
         match choice:
             case "name":
-                pass
+                try:
+                    with open("halls.json", "r") as f:
+                        halls = json.load(f)
+                except FileNotFoundError:
+                    print(f"File not found in path {file_path_hall}")
+                    return False
+                else:
+                    for hall in halls:
+                        if hall["name"] == name:
+                            hall["name"] = new_amount
+                            break
+                        else:
+                            pass
+                    with open("halls.json", "w") as f:    
+                        json.dump(halls, f, indent=4)
+
             case "capacity":
-                pass
+
+                try:
+                    with open("halls.json", "r") as f:
+                        halls = json.load(f)
+                except FileNotFoundError:
+                    print(f"File not found in path {file_path_hall}")
+                    return False
+                else:
+                    for hall in halls:
+                        if hall["name"] == name:
+                            hall["capacity"] = new_amount
+                            break
+                        else:
+                            pass
+                    with open("halls.json", "w") as f:    
+                        json.dump(halls, f, indent=4)
+
             case "tools":
-                pass
+
+                if isinstance(new_amount, str):
+                    tools = [tool.strip() for tool in new_amount.split(",")]   
+                try:
+                    with open("halls.json", "r") as f:
+                        halls = json.load(f)
+                except FileNotFoundError:
+                    print(f"File not found in path {file_path_hall}")
+                    return False
+                else:
+                    for hall in halls:
+                        if hall["name"] == name:
+                            hall["tools"] = tools
+                            break
+                        else:
+                            pass
+                    with open("halls.json", "w") as f:    
+                        json.dump(halls, f, indent=4)
+
             case "hall_status":
-                pass
+
+                try:
+                    with open("halls.json", "r") as f:
+                        halls = json.load(f)
+                except FileNotFoundError:
+                    print("File halls.json not found.")
+                    return False
+                for hall in halls:
+                    if hall["name"] == name:
+                        hall["hall_status"] = new_amount
+                        break
+                    else:
+                        print("Name of the hall not found!")
+                        return False
+                with open("halls.json", "w") as f:
+                    json.dump(halls, f, indent=4)
+                return True
+
+    # Show halls general info
+
+    def show_hall_info(self):
+        try:
+            with open("halls.json", "r", encoding="utf-8") as f:
+                halls = json.load(f)
+        except FileNotFoundError:
+            print(f"File not found in path: {file_path_hall}")
+            return False
+        else:
+            for hall in halls:
+                for key, value in hall.items():
+                    print(f"{key} : {value}")
+                print("---------------------------------------------------------------------------------------------------------------------------------------------------------------")
