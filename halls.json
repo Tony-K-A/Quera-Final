@@ -1,12 +1,11 @@
 [
     {
-        "name": "Green Leaves",
-        "capacity": 80,
+        "name": "Bargesabz",
+        "capacity": 200,
         "tools": [
-            "bicycle",
-            "treadmil",
-            "weights",
-            "press_tools"
+            "Elepticals",
+            "Jogging tools",
+            "mountain tools"
         ],
         "hall_status": true
     },
