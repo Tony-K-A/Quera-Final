@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import re
 
 file_path = Path(__file__).resolve().parent / "users.json"
 file_path_hall = Path(__file__).resolve().parent / "halls.json"
@@ -32,7 +33,8 @@ class Manage:
         if (authority == "coach"):
                 if any(coach.get("username") == username for coach in self.file):
                     raise ValueError(f"Username '{username}' already exists!")
-                coach = {
+                if re.fullmatch(email,r"[\w.+-]+@[\w-]+(?:\.[A-Za-z]+{2,})") and re.fullmatch(password,r"(?=.*[A-Za-z])(?=.*\d)(?=.*[@&]).+"):
+                    coach = {
                         'name' : name,
                         'authority' : authority, 
                         'username' : username, 
@@ -40,14 +42,18 @@ class Manage:
                         'email' : email, 
                         'active_status' : active_status
                         }
-                self.file.append(coach)
-                with open(file_path, "w", encoding="utf-8") as f:
-                    json.dump(self.file, f, indent=4)
-                return True
+                    self.file.append(coach)
+                    with open(file_path, "w", encoding="utf-8") as f:
+                        json.dump(self.file, f, indent=4)
+                    return True
+                else:
+                    print("invalid email or password")
+                    return False
         elif (authority == "gym_user"):
                 if any(coach.get("username") == username for coach in self.file):
                     raise ValueError(f"Username '{username}' already exists!")
-                coach = {
+                if re.fullmatch(email,r"[\w.+-]+@[\w-]+(?:\.[A-Za-z]+{2,})") and re.fullmatch(password,r"(?=.*[A-Za-z])(?=.*\d)(?=.*[@&]).+") :
+                    coach = {
                     'authority' : authority,
                     'name' : name, 
                     'username' : username, 
@@ -55,16 +61,18 @@ class Manage:
                     'email' : email, 
                     'active_status' : active_status
                     }
-                self.file.append(coach)
-                with open(file_path, "w") as f:
-                    json.dump(self.file, f, indent=4)
-                return True
+                    self.file.append(coach)
+                    with open(file_path, "w") as f:
+                        json.dump(self.file, f, indent=4)
+                    return True
+                else:
+                    print("invalid email or password")
+                    return False
         else:
             print("Invalid authority! ")
             return False
 
-    # Module to edit user info including "name" - "email" - "password" - "active_status"
-
+    # Module to edit user info including "name" - "email" - "password" - "active_status"     
     def edit_member_info(self, section, amount, username):
 
         match section:
@@ -82,6 +90,7 @@ class Manage:
                             json.dump(self.file, f, indent=4)
                     return True
             case "password":
+                if re.fullmatch(section,r"(?=.*[A-Za-z])(?=.*\d)(?=.*[@&]).+"):
                     found=False    
                     for user in self.file:
                         if(user['username'] == username):
@@ -94,7 +103,11 @@ class Manage:
                     with open(file_path, "w", encoding="utf-8") as f:
                             json.dump(self.file, f, indent=4)
                     return True
+                else:
+                    print("invalid email")
+                    return False
             case "email":
+                if re.fullmatch(section,r"[\w.+-]+@[\w-]+(?:\.[A-Za-z]+{2,})"): 
                     found=False  
                     for user in self.file:
                         if(user['username'] == username):
@@ -107,6 +120,9 @@ class Manage:
                     with open(file_path, "w", encoding="utf-8") as f:
                             json.dump(self.file, f, indent=4)
                     return True
+                else:
+                    print("invalid email")
+                    return False
             case "active_status":
                     found=False  
                     for user in self.file:
