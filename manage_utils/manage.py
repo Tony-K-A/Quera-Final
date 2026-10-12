@@ -13,12 +13,17 @@ class Manage:
                 with open(file_path, "r", encoding="utf-8") as f:
                     self.file= json.load(f)        
             except FileNotFoundError:
-                    raise FileNotFoundError (f"File does not exist: {file_path}")
+                    print(f"File does not exist: {file_path}")
             try:
                 with open(file_path_hall, "r", encoding="utf-8") as f:
                     self.halls = json.load(f)
             except FileNotFoundError:
-                    raise FileNotFoundError(f"File not found in path: {file_path_hall}")
+                    print(f"File not found in path: {file_path_hall}")
+            try:
+                with open(file_path_classes, "r") as f:
+                    self.classes = json.load(f)
+            except FileNotFoundError:
+                    print(f"File not found in path {file_path_classes}")
     @staticmethod
     def show_panel():
         print("1. Users management")
@@ -34,7 +39,7 @@ class Manage:
         if (authority == "coach"):
                 if any(coach.get("username") == username for coach in self.file):
                     raise ValueError(f"Username '{username}' already exists!")
-                if re.fullmatch(email,r"[\w.+-]+@[\w-]+(?:\.[A-Za-z]+{2,})") and re.fullmatch(password,r"(?=.*[A-Za-z])(?=.*\d)(?=.*[@&]).+"):
+                if re.fullmatch(r"[\w.+-]+@[\w-]+(?:\.[A-Za-z]+{2,})",email) and re.fullmatch(r"(?=.*[A-Za-z])(?=.*\d)(?=.*[@&]).+",password):
                     coach = {
                         'name' : name,
                         'authority' : authority, 
@@ -53,7 +58,7 @@ class Manage:
         elif (authority == "gym_user"):
                 if any(coach.get("username") == username for coach in self.file):
                     raise ValueError(f"Username '{username}' already exists!")
-                if re.fullmatch(email,r"[\w.+-]+@[\w-]+(?:\.[A-Za-z]+{2,})") and re.fullmatch(password,r"(?=.*[A-Za-z])(?=.*\d)(?=.*[@&]).+") :
+                if re.fullmatch(r"[\w.+-]+@[\w-]+(?:\.[A-Za-z]+{2,})",email) and re.fullmatch(r"(?=.*[A-Za-z])(?=.*\d)(?=.*[@&]).+",password) :
                     coach = {
                     'authority' : authority,
                     'name' : name, 
@@ -91,7 +96,7 @@ class Manage:
                             json.dump(self.file, f, indent=4)
                     return True
             case "password":
-                if re.fullmatch(section,r"(?=.*[A-Za-z])(?=.*\d)(?=.*[@&]).+"):
+                if re.fullmatch(r"(?=.*[A-Za-z])(?=.*\d)(?=.*[@&]).+",amount):
                     found=False    
                     for user in self.file:
                         if(user['username'] == username):
@@ -108,7 +113,7 @@ class Manage:
                     print("invalid email")
                     return False
             case "email":
-                if re.fullmatch(section,r"[\w.+-]+@[\w-]+(?:\.[A-Za-z]+{2,})"): 
+                if re.fullmatch(r"[\w.+-]+@[\w-]+(?:\.[A-Za-z]+{2,})",amount): 
                     found=False  
                     for user in self.file:
                         if(user['username'] == username):
@@ -240,27 +245,14 @@ class Manage:
         else:
             print("Mentioned class type is not valid! ")
             return False
-    
-        try:
-            with open("classes.json", "r") as f:
-                classes = json.load(f)
-        except FileNotFoundError:
-            print(f"File not found in path {file_path_classes}")
-        else:
-            h = open("halls.json", "r")
-            c = open("users.json", "r")
-            halls = json.load(h)
-            coaches = json.load(c)
-
-            hall_key = 0
-            coach_key = 0
-
-            for hal in halls:
+        hall_key = 0
+        coach_key = 0
+        for hal in self.halls:
                 for key, value in hal.items():
                     if hal[key] == hall:
                         if hal["hall_status"] == True:
                             hall_key = 1
-                for coach in coaches:
+                for coach in self.file:
                     for key, value in coach.items():
                         if coach[key] == coach_user:
                             if coach["active_status"] == True:
@@ -276,7 +268,7 @@ class Manage:
                         "class_time" : time,
                         "capacity" : capacity
                     }
-                    classes.append(clas)
+                    self.classes.append(clas)
                 else:
                     if coach_key != 1:
                         print("Coach status is not active! ")
@@ -284,10 +276,5 @@ class Manage:
                     else:
                         print("Hall status in not active!")
                         return False
-
-        finally:
-            with open("classes.json", "w") as f:
-                json.dump(classes, f, indent=4)
-            h.close()
-            c.close()
-
+        with open(file_path_classes, "w") as f:
+                json.dump(self.classes, f, indent=4)
