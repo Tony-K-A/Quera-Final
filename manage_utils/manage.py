@@ -297,8 +297,7 @@ class Manage:
                         hall["hall_status"] = new_amount
                         break
                     else:
-                        print("Name of the hall not found!")
-                        return False
+                        pass
                 with open("halls.json", "w") as f:
                     json.dump(halls, f, indent=4)
                 return True
@@ -321,94 +320,157 @@ class Manage:
     # Classes Section
     # Add classes
 
-    def add_class(self, name, class_type, coach_user, hall, date, time, capacity):
+    def add_class(self, name, class_type, coach_user, hall, date, time, capacity, status):
         class_types = ["gym", "crossfit", "fitness", "yoga"]
-        if class_type in class_types:
-            pass
-        else:
-            print("Mentioned class type is not valid! ")
+
+        if class_type not in class_types:
+            print("Mentioned class type is not valid!")
             return False
-    
+
         try:
-            with open("classes.json", "r") as f:
+            with open("classes.json", "r", encoding="utf-8") as f:
                 classes = json.load(f)
         except FileNotFoundError:
-            print(f"File not found in path {file_path_classes}")
+            print("File not found: classes.json")
             return False
+        except json.JSONDecodeError:
+            print("classes.json contains invalid JSON!")
+            return False
+
         try:
             with open("halls.json", "r", encoding="utf-8") as h:
                 halls = json.load(h)
+
             with open("users.json", "r", encoding="utf-8") as c:
                 coaches = json.load(c)
+
         except FileNotFoundError:
             print("Hall or User file not found!")
             return False
-        
+        except json.JSONDecodeError:
+            print("halls.json or users.json contains invalid JSON!")
+            return False
+
         hall_key = 0
         coach_key = 0
 
         for hal in halls:
             if hal["name"] == hall:
-                if hal["hall_status"] == True:
+                if hal["hall_status"] is True:
                     hall_key = 1
                 break
 
         for coach in coaches:
             if coach["username"] == coach_user:
-                if coach["active_status"] == True:
+                if coach["active_status"] is True:
                     coach_key = 1
                 break
 
-        if (coach_key == 1 and hall_key == 1):
-            clas = {
-                "title" : name,
-                    "class_type" : class_type,
-                    "coach" : coach_user,
-                    "sport_hall" : hall,
-                    "class_date" : date,
-                    "class_time" : time,
-                    "capacity" : capacity
-                }
-            classes.append(clas)
-        else:
-            if coach_key != 1:
-                print("Coach status is not active! ")
-                return False
-            if hall_key != 1:
-                print("Hall status in not active!")
-                return False
-            try:
-                with open("classes.json", "w", encoding="utf-8") as f:
-                    json.dump(classes, f, indent=4)
-            except OSError:
-                return False
-        re
+        if coach_key != 1:
+            print("Coach not found or coach status is not active!")
+            return False
+
+        if hall_key != 1:
+            print("Hall not found or hall status is not active!")
+            return False
+
+        clas = {
+            "title": name,
+            "class_type": class_type,
+            "coach": coach_user,
+            "sport_hall": hall,
+            "class_date": date,
+            "class_time": time,
+            "capacity": capacity,
+            "class_status": status
+        }
+
+        classes.append(clas)
+
+        try:
+            with open("classes.json", "w", encoding="utf-8") as f:
+                json.dump(classes, f, indent=4)
+        except OSError:
+            print("Could not save the class!")
+            return False
+
+        return True
+
 
     # Edit Classes info
 
     def edit_class_info(self, name, edit_item, item_value):
         try:
-            with open("classes.json", "r") as f:
+            with open("classes.json", "r", encoding="utf-8") as f:
                 classes = json.load(f)
         except FileNotFoundError:
-            print(f"File not found in path {file_path_classes}")
+            print("File not found: classes.json")
             return False
-        else:
-            if edit_item == "coach":
-                with open("users.json", "r") as f:
-                    coaches = json.load(f)
-                for coach in coaches:
-                    if coach[item_value]:
-                        if coach["active_status"] != True:
-                            print("Coach status is not active! ")
-                            return False
-            for clas in classes:
-                if clas["title"] == name:
-                    clas[edit_item] = item_value
-        finally:
-            with open("classes.json", "w") as f:
-                json.dump(classes, f, indent=4)
+        except json.JSONDecodeError:
+            print("classes.json contains invalid JSON!")
+            return False
 
+        editable_items = [
+            "title", "class_type", "coach", "sport_hall",
+            "class_date", "class_time", "capacity", "class_status"
+        ]
+
+        if edit_item not in editable_items:
+            print("Invalid item to edit!")
+            return False
+
+        if edit_item == "coach":
+            try:
+                with open("users.json", "r", encoding="utf-8") as f:
+                    coaches = json.load(f)
+            except FileNotFoundError:
+                print("Users file not found!")
+                return False
+
+            coach_found = False
+
+            for coach in coaches:
+                if coach["username"] == item_value:
+                    coach_found = True
+
+                    if coach["active_status"] is not True:
+                        print("Coach status is not active!")
+                        return False
+
+                    break
+
+            if not coach_found:
+                print("Coach not found!")
+                return False
+
+        if edit_item == "class_type":
+            class_types = ["gym", "crossfit", "fitness", "yoga"]
+
+            if item_value not in class_types:
+                print("Mentioned class type is not valid!")
+                return False
+
+        class_found = False
+
+        for clas in classes:
+            if clas["title"] == name:
+                clas[edit_item] = item_value
+                class_found = True
+                break
+
+        if not class_found:
+            print("Class not found!")
+            return False
+
+        try:
+            with open("classes.json", "w", encoding="utf-8") as f:
+                json.dump(classes, f, indent=4)
+        except OSError:
+            print("Could not save the class information!")
+            return False
+
+        return True
+    #This Module is not Operating correctly. Don't add yet...
     # Show classes
 
     def show_class_info(self):

@@ -1,3 +1,12 @@
 [
-    
+    {
+        "title": "Gym Class",
+        "class_type": "gym",
+        "coach": "coach1",
+        "sport_hall": "Gym Saloon",
+        "class_date": "Thuesday",
+        "class_time": "18:00",
+        "capacity": 40,
+        "class_status": true
+    }
 ]

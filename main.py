@@ -33,4 +33,4 @@ authority = 'manager'
 match authority:
     case "manager":
         manager = Manage()
-        manager.add_hall("Gym Saloon", 120, "treadmils, weights, elepticals", True)
+        manager.edit_class_info("Gym Class", "coach", "coach4")
