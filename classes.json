@@ -1,29 +1,3 @@
 [
-    {
-        "title": "gym_class",
-        "class_type": "gym",
-        "coach": "HRambod",
-        "sport_hall": "Bargesabz",
-        "class_date": "Tuesday",
-        "class_time": "18:00",
-        "capacity": 50
-    },
-    {
-        "title": "gym_class",
-        "class_type": "gym",
-        "coach": "SarDal123",
-        "sport_hall": "Bargesabz",
-        "class_date": "Tuesday",
-        "class_time": "18:00",
-        "capacity": 50
-    },
-    {
-        "title": "gym_class",
-        "class_type": "gym",
-        "coach": "SarDal123",
-        "sport_hall": "Bargesabz",
-        "class_date": "Tuesday",
-        "class_time": "18:00",
-        "capacity": 50
-    }
+    
 ]
