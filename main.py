@@ -27,11 +27,14 @@ while True:
                 option = int(input("Enter your desired option: "))
 
                 if option == 1:
+                    
                     m = Manage()
                     show_manager_user_options()
-                    user_option = int(input())
+                    print()
+                    user_option = map(int, input().strip())
 
                     if user_option == 1:
+
                         authority = input("Enter user authority: ").strip()
                         name = input("Enter user name: ")
                         usernam = input("Enter username: ").strip()
@@ -41,9 +44,8 @@ while True:
                         if authority not in ["coach", "gym_user"]:
                             print("Invalid Authority! ")
                         else:
-                            m.add_member()
+                            m.add_member(authority, name, usernam, passwor, email, True)
                         
-
                     elif user_option == 2:
                         pass
 
