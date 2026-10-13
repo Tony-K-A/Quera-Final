@@ -1,9 +1,13 @@
 import json
 from pathlib import Path
+from datetime import datetime, timedelta
+import uuid
 
 file_path = Path(__file__).resolve().parent / "users.json"
 file_path_hall = Path(__file__).resolve().parent / "halls.json"
 file_path_classes = Path(__file__).resolve().parent / "classes.json"
+file_path_subscriptions = Path(__file__).resolve().parent / "subscriptions.json"
+file_path_payments = Path(__file__).resolve().parent / "payments.json"
 
 class Manage:
 
@@ -189,7 +193,7 @@ class Manage:
             for user in users:
                 for key, value in user.items():
                     print(f"{key} : {value}")
-                print("---------------------------------------------------------------------------------------------------------------------------------------------------------------")
+                print("-" * 50)
 
     # Add hall
 
@@ -315,7 +319,7 @@ class Manage:
             for hall in halls:
                 for key, value in hall.items():
                     print(f"{key} : {value}")
-                print("---------------------------------------------------------------------------------------------------------------------------------------------------------------")
+                print("-" * 50)
 
     # Classes Section
     # Add classes
@@ -396,9 +400,7 @@ class Manage:
 
         return True
 
-
     # Edit Classes info
-
 
     def edit_class_info(self, name, edit_item, item_value):
 
@@ -565,4 +567,258 @@ class Manage:
             for clas in classes:
                 for key, value in clas.items():
                     print(f"{key} : {value}")
-                print("---------------------------------------------------------------------------------------------------------------------------------------------------------------")
+                print("-" * 50)
+
+    # Subscriptions & Payments Management
+
+    def create_subscription(self, member_username, sub_type, amount):
+    
+        valid_types = {
+            "1-month": 30,
+            "3-month": 90,
+            "6-month": 180
+        }
+        if sub_type not in valid_types:
+            print("Invalid subscription type! Choose: 1-month, 3-month, 6-month")
+            return False
+        
+        if not isinstance(amount, (int, float)) or amount <= 0:
+            print("Amount must be a positive number!")
+            return False
+
+        # Check member exists and is a gym_user + active
+
+        try:
+            with open("users.json", "r", encoding="utf-8") as f:
+                users = json.load(f)
+        except FileNotFoundError:
+            print("users.json not found!")
+            return False
+        except json.JSONDecodeError:
+            print("users.json contains invalid JSON!")
+            return False
+
+        member = None
+        for user in users:
+            if user.get("username") == member_username:
+                if user.get("authority") != "gym_user":
+                    print("Selected user is not a gym member!")
+                    return False
+                if user.get("active_status") is not True:
+                    print("Member account is not active!")
+                    return False
+                member = user
+                break
+
+        if member is None:
+            print(f"Member with username '{member_username}' not found!")
+            return False
+
+        # Load existing subscriptions
+        try:
+            with open("subscriptions.json", "r", encoding="utf-8") as f:
+                subscriptions = json.load(f)
+        except FileNotFoundError:
+            subscriptions = []
+        except json.JSONDecodeError:
+            subscriptions = []
+
+        # Load existing payments
+        try:
+            with open("payments.json", "r", encoding="utf-8") as f:
+                payments = json.load(f)
+        except FileNotFoundError:
+            payments = []
+        except json.JSONDecodeError:
+            payments = []
+
+        now = datetime.now()
+        start_date = now.strftime("%Y-%m-%d")
+        end_date = (now + timedelta(days=valid_types[sub_type])).strftime("%Y-%m-%d")
+        tracking_number = str(uuid.uuid4())[:8].upper()
+
+        subscription = {
+            "member_username": member_username,
+            "member_name": member.get("name"),
+            "sub_type": sub_type,
+            "amount": amount,
+            "start_date": start_date,
+            "end_date": end_date,
+            "status": "active",
+            "tracking_number": tracking_number
+        }
+
+        payment = {
+            "member_username": member_username,
+            "member_name": member.get("name"),
+            "sub_type": sub_type,
+            "amount": amount,
+            "payment_date": start_date,
+            "start_date": start_date,
+            "end_date": end_date,
+            "tracking_number": tracking_number
+        }
+
+        # Deactivate previous active subscriptions of this member
+        for sub in subscriptions:
+            if sub.get("member_username") == member_username and sub.get("status") == "active":
+                sub["status"] = "expired"
+
+        subscriptions.append(subscription)
+        payments.append(payment)
+
+        try:
+            with open("subscriptions.json", "w", encoding="utf-8") as f:
+                json.dump(subscriptions, f, indent=4)
+            with open("payments.json", "w", encoding="utf-8") as f:
+                json.dump(payments, f, indent=4)
+        except OSError as e:
+            print(f"Could not save subscription/payment: {e}")
+            return False
+
+        print(f"Subscription created successfully! Tracking number: {tracking_number}")
+        return True
+
+    def show_payments(self):
+       
+        try:
+            with open("payments.json", "r", encoding="utf-8") as f:
+                payments = json.load(f)
+        except FileNotFoundError:
+            print("No payments found yet.")
+            return False
+        except json.JSONDecodeError:
+            print("payments.json contains invalid JSON!")
+            return False
+
+        if not payments:
+            print("No payments recorded.")
+            return False
+
+        print("\n========== All Payments ==========")
+        for p in payments:
+            print(f"Member Name : {p.get('member_name')}")
+            print(f"Username : {p.get('member_username')}")
+            print(f"Subscription : {p.get('sub_type')}")
+            print(f"Amount : {p.get('amount')}")
+            print(f"Payment Date : {p.get('payment_date')}")
+            print(f"Start Date : {p.get('start_date')}")
+            print(f"End Date        : {p.get('end_date')}")
+            print(f"Tracking Number : {p.get('tracking_number')}")
+            print("-" * 50)
+        return True
+
+    def show_subscription_status(self, member_username=None):
+
+        try:
+            with open("users.json", "r", encoding="utf-8") as f:
+                users = json.load(f)
+        except FileNotFoundError:
+            print("users.json not found!")
+            return False
+
+        try:
+            with open("subscriptions.json", "r", encoding="utf-8") as f:
+                subscriptions = json.load(f)
+        except FileNotFoundError:
+            subscriptions = []
+        except json.JSONDecodeError:
+            subscriptions = []
+
+        members = [u for u in users if u.get("authority") == "gym_user"]
+
+        if member_username:
+            members = [m for m in members if m.get("username") == member_username]
+            if not members:
+                print(f"Member '{member_username}' not found!")
+                return False
+
+        print("\n========== Subscription Status ==========")
+        for member in members:
+            username = member.get("username")
+            name = member.get("name")
+
+            # Find latest subscription for this member
+            member_subs = [s for s in subscriptions if s.get("member_username") == username]
+            if not member_subs:
+                status = "no_subscription"
+                sub_info = None
+            else:
+                # Sort by end_date descending
+                member_subs.sort(key=lambda x: x.get("end_date", ""), reverse=True)
+                latest = member_subs[0]
+                end_date = latest.get("end_date")
+                try:
+                    if datetime.strptime(end_date, "%Y-%m-%d") >= datetime.now():
+                        status = "active"
+                    else:
+                        status = "expired"
+                        latest["status"] = "expired"
+                except ValueError:
+                    status = "expired"
+                sub_info = latest
+
+            print(f"Name : {name}")
+            print(f"Username : {username}")
+            print(f"Status : {status}")
+            if sub_info:
+                print(f"Type : {sub_info.get('sub_type')}")
+                print(f"Start Date : {sub_info.get('start_date')}")
+                print(f"End Date : {sub_info.get('end_date')}")
+                print(f"Tracking Number : {sub_info.get('tracking_number')}")
+            print("-" * 50)
+
+        return True
+
+    # Reports
+
+    def show_reports(self):
+
+        try:
+            with open("users.json", "r", encoding="utf-8") as f:
+                users = json.load(f)
+        except FileNotFoundError:
+            users = []
+        except json.JSONDecodeError:
+            users = []
+
+        active_members = sum(
+            1 for u in users
+            if u.get("authority") == "gym_user" and u.get("active_status") is True
+        )
+        active_coaches = sum(
+            1 for u in users
+            if u.get("authority") == "coach" and u.get("active_status") is True
+        )
+
+        # 3. Active classes
+        try:
+            with open("classes.json", "r", encoding="utf-8") as f:
+                classes = json.load(f)
+        except FileNotFoundError:
+            classes = []
+        except json.JSONDecodeError:
+            classes = []
+
+        active_classes = sum(
+            1 for c in classes if c.get("class_status") is True
+        )
+
+        # 4. Total revenue
+        try:
+            with open("payments.json", "r", encoding="utf-8") as f:
+                payments = json.load(f)
+        except FileNotFoundError:
+            payments = []
+        except json.JSONDecodeError:
+            payments = []
+
+        total_revenue = sum(p.get("amount", 0) for p in payments)
+
+        print("\n========== Manager Reports ==========")
+        print(f"1. Active Members   : {active_members}")
+        print(f"2. Active Coaches   : {active_coaches}")
+        print(f"3. Active Classes   : {active_classes}")
+        print(f"4. Total Revenue    : {total_revenue}")
+        print("=" * 40)
+        return True
