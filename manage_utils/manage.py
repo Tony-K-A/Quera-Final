@@ -248,17 +248,18 @@ class Manage:
         hall_key = 0
         coach_key = 0
         for hal in self.halls:
-                for key, value in hal.items():
+                for key, value in hal.items(): 
                     if hal[key] == hall:
                         if hal["hall_status"] == True:
                             hall_key = 1
-                for coach in self.file:
+                            break
+        for coach in self.file:
                     for key, value in coach.items():
                         if coach[key] == coach_user:
                             if coach["active_status"] == True:
                                 coach_key = 1
-
-                if (coach_key == 1 and hall_key == 1):
+                                break
+        if (coach_key == 1 and hall_key == 1):
                     clas = {
                         "title" : name,
                         "class_type" : class_type,
@@ -269,7 +270,7 @@ class Manage:
                         "capacity" : capacity
                     }
                     self.classes.append(clas)
-                else:
+        else:
                     if coach_key != 1:
                         print("Coach status is not active! ")
                         return False
