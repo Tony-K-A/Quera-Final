@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-def show_menu():
+def show_menu_login():
     print("1.Gym manager login.")
     print("2.Gym coach login.")
     print("3.Gym user login.")
@@ -11,7 +11,7 @@ def login(username, password, authority, status = None):
     file_path = Path(__file__).resolve().parent / "login_info.json"
 
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open("users.json", "r", encoding="utf-8") as f:
             users = json.load(f)
 
     except FileNotFoundError:
@@ -29,3 +29,8 @@ def login(username, password, authority, status = None):
             if user["status"] == "active":
                 return True 
     return False
+
+def show_manager_user_options():
+    print("1.Add user.")
+    print("2.Edit user information.")
+    print("3.Show users information")

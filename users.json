@@ -1,59 +1,8 @@
 [
     {
-        "username": "coach1",
-        "name": "John Smith",
-        "password": "john123",
-        "email": "john@example.com",
-        "active_status": true
-    },
-    {
-        "username": "coach2",
-        "name": "Sarah Johnson",
-        "password": "sarah456",
-        "email": "sarah@example.com",
-        "active_status": false
-    },
-    {
-        "username": "coach3",
-        "name": "Michael Brown",
-        "password": "mike789",
-        "email": "michael@example.com",
-        "active_status": true
-    },
-    {
-        "username": "coach4",
-        "name": "Emily Davis",
-        "password": "emily321",
-        "email": "emily@example.com",
-        "active_status": true
-    },
-    {
-        "username": "member1",
-        "name": "David Wilson",
-        "password": "david123",
-        "email": "david@example.com",
-        "active_status": true
-    },
-    {
-        "username": "member2",
-        "name": "Olivia Taylor",
-        "password": "olivia456",
-        "email": "olivia@example.com",
-        "active_status": false
-    },
-    {
-        "username": "member3",
-        "name": "James Anderson",
-        "password": "james789",
-        "email": "james@example.com",
-        "active_status": true
-    },
-    {
-        "username": "member4",
-        "name": "Sophia Martinez",
-        "password": "sophia321",
-        "email": "sophia@example.com",
-        "active_status": true
+        "username": "manager1",
+        "password": "Manager@123",
+        "authority": "manager"
     },
     {
         "name": "Amir",

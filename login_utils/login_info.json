@@ -3,29 +3,5 @@
         "username": "manager1",
         "password": "Manager@123",
         "authority": "manager"
-    },
-    {
-        "username": "coach1",
-        "password": "Coach@101",
-        "authority": "coach",
-        "status": "active"
-    },
-    {
-        "username": "coach2",
-        "password": "Coach@102",
-        "authority": "coach",
-        "status": "active"
-    },
-    {
-        "username": "gym_member1",
-        "password": "GymUser@101",
-        "authority": "gym_user",
-        "status": "active"
-    },
-    {
-        "username": "gym_member2",
-        "password": "GymUser@102",
-        "authority": "gym_user",
-        "status": "active"
     }
 ]
