@@ -1,16 +1,27 @@
-
+import re
 import json
 from pathlib import Path
 
 file_path = Path(__file__).resolve().parent / "users.json"
 file_path_hall = Path(__file__).resolve().parent / "halls.json"
 file_path_classes = Path(__file__).resolve().parent / "classes.json"
-
+def checking_json_files(path):
+        if not path.exists():
+            with open(path,"w",encoding="utf-8") as f:
+                json.dump([],f)
+                return []
+        else:
+            try:
+                with open(path,"r",encoding="utf-8") as f:
+                    return json.load(f)
+            except json.JSONDecodeError:
+                print(f"{path} contains invalid JSON!")
+                return False
 class Manage:
-
     def __init__(self):
-        pass
-
+            self.users=checking_json_files(file_path)
+            self.halls=checking_json_files(file_path_hall)
+            self.classes=checking_json_files(file_path_classes)  
     @staticmethod
     def show_panel():
         print("1. Users management")
@@ -24,13 +35,7 @@ class Manage:
 
     def add_member(self, authority, name, username, password, email, active_status):
         if (authority == "coach"):
-            try:
-                with open("users.json", "r", encoding="utf-8") as f:
-                    coaches = json.load(f)
-            except FileNotFoundError:
-                coaches = [] 
-            else:
-                if any(coach.get("username") == username for coach in coaches):
+                if any(coach.get("username") == username for coach in self.users):
                     print(f"Username '{username}' already exists!")
                     return False
                 coach = {
@@ -41,22 +46,12 @@ class Manage:
                         'email' : email, 
                         'active_status' : active_status
                         }
-                coaches.append(coach)
-            try: 
-                with open("users.json", "w", encoding="utf-8") as f:
-                    json.dump(coaches, f, indent=4)
-            except OSError as e:
-                print(f"Could now save users: {e}")
-                return False
-
+                self.users.append(coach)
+                with open(file_path, "w", encoding="utf-8") as f:
+                    json.dump(self.users, f, indent=4)
+                return True
         elif (authority == "gym_user"):
-            try:
-                with open("users.json", "r", encoding="utf-8") as f:
-                    coaches = json.load(f)
-            except FileNotFoundError:
-                coaches = []  
-            else:
-                if any(coach.get("username") == username for coach in coaches):
+                if any(coach.get("username") == username for coach in self.users):
                     print(f"Username {username} already exists! ")
                     return False
                 coach = {
@@ -68,13 +63,9 @@ class Manage:
                     'active_status' : active_status
 
                     }
-                coaches.append(coach)
-                try: 
-                    with open("users.json", "w") as f:
-                        json.dump(coaches, f, indent=4)
-                except OSError as e:
-                    print(f"Could not save users: {e}")
-                    return False
+                self.users.append(coach)
+                with open(file_path, "w") as f:
+                        json.dump(self.users, f, indent=4)
                 return True
         else:
             print("Invalid authority! ")
@@ -83,114 +74,49 @@ class Manage:
     # Module to edit user info including "name" - "email" - "password" - "active_status"
 
     def edit_member_info(self, section, amount, username):
-
+        def checking_username():
+            found=False
+            for user in self.users:
+                if(user['username'] == username):
+                        user[section] = amount
+                        found=True
+                        break
+            if not found:
+                print(f"{username} did'nt found")
+                return False
+            with open(file_path, "w", encoding="utf-8") as f:
+                    json.dump(self.users, f, indent=4)
+            return True 
         match section:
-
             case "name":
-
-                try:
-                    with open("users.json", "r", encoding="utf-8") as f:
-                        users = json.load(f)
-                except FileNotFoundError:
-                    print(f"File does not exist: {file_path}")
-                    return False  
-                else:
-                    for user in users:
-                        if(user['username'] == username):
-                            user['name'] = amount
-                            break
-                        else:
-                            pass
-                    try:
-                        with open("users.json", "w", encoding="utf-8") as f:
-                            json.dump(users, f, indent=4)
-                    except OSError:
-                        return False
-                return True
-            
+                return checking_username()
             case "password":
-
-                try:
-                    with open("users.json", "r", encoding="utf-8") as f:
-                        users = json.load(f)
-                except FileNotFoundError:
-                    print(f"File does not exist: {file_path}")
-                    return False  
+                if re.fullmatch(r"(?=.*[A-Za-z])(?=.*\d)(?=.*[@&]).+",amount):
+                    return checking_username()
                 else:
-                    for user in users:
-                        if(user['username'] == username):
-                            user['password'] = amount
-                            break
-                        else:
-                            pass
-                    try:
-                        with open("users.json", "w", encoding="utf-8") as f:
-                            json.dump(users, f, indent=4)
-                    except OSError:
-                        return False
-                return True    
-
+                    print("password is invalid")
+                    return False          
             case "email":
-                
-                try:
-                    with open("users.json", "r", encoding="utf-8") as f:
-                        users = json.load(f)
-                except FileNotFoundError:
-                    print(f"File does not exist: {file_path}")
-                    return False  
+                if re.fullmatch(r"[\w.+-]+@[\w-]+(?:\.[A-Za-z]{2,})+",amount):
+                    return checking_username()
                 else:
-                    for user in users:
-                        if(user['username'] == username):
-                            user["email"] = amount
-                            break
-                        else:
-                            pass
-                    try:
-                        with open("users.json", "w", encoding="utf-8") as f:
-                            json.dump(users, f, indent=4)
-                    except OSError:
-                        return False
-                return True      
-
+                    print("email is invalid")
+                    return False    
             case "active_status":
-
-                try:
-                    with open("users.json", "r", encoding="utf-8") as f:
-                        users = json.load(f)
-                except FileNotFoundError:
-                    print(f"File does not exist: {file_path}")
-                    return False  
+                if amount==True or amount==False:
+                    return checking_username()
                 else:
-                    for user in users:
-                        if(user['username'] == username):
-                            user["active_status"] = amount
-                            break
-                        else:
-                            pass
-                    try:
-                        with open("users.json", "w", encoding="utf-8") as f:
-                            json.dump(users, f, indent=4)
-                    except OSError:
-                        return False
-                return True
-            case wrong:
+                    print("invalid active_status")
+            case _:
                 print("Invalid selection! ")
                 return False
-
     # Module to show users information
 
     def show_user_info(self):
-        try:
-            with open("users.json", "r") as f:
-                users = json.load(f)
-        except FileNotFoundError:
-            print(f"file does not exist in path {file_path}")
-            return False
-        else:
-            for user in users:
+            for user in self.users:
                 for key, value in user.items():
                     print(f"{key} : {value}")
-                print("---------------------------------------------------------------------------------------------------------------------------------------------------------------")
+                print("----------------------------------------------------------------------------------------------------------------------------------------------------------")
 
     # Add hall
 
@@ -198,122 +124,61 @@ class Manage:
 
         if isinstance(tools, str):
             tools = [tool.strip() for tool in tools.split(",")]
-
-        try:
-            with open("halls.json", "r", encoding="utf-8") as f:
-                halls = json.load(f)
-                print("try 1 ok")
-
-        except FileNotFoundError:
-            print(f"Halls.json not found in path {file_path_hall}")
-            halls = []
-
-        else:
             hall = {
                     "name": name,
                 "capacity": capacity,
                 "tools": tools,
                 "hall_status": hall_status
             }
-
-            halls.append(hall)
+            self.halls.append(hall)
             print("hall appended")
-            try:
-                with open("halls.json", "w", encoding="utf-8") as f:
-                    json.dump(halls, f, indent=4)
+            with open(file_path_hall, "w", encoding="utf-8") as f:
+                    json.dump(self.halls, f, indent=4)
                     print("hall dumped")
-            except OSError:
-                return False
-            return True
-
+        else:
+            print("enter tools in a sentence seperated by ',' ")
+            return False
+            
+        return True
+        
     # Edit hall information by taking name of the hall as a key
 
     def edit_hall_info(self, name, choice, new_amount):
+        def checking_halls():
+            found=False
+            for hall in self.halls:
+                if hall["name"] == name:
+                    hall[choice] = new_amount
+                    found=True
+                    break
+            if not found:
+                print(f"{name} did'nt found")
+                return False
+            with open(file_path_hall, "w", encoding="utf-8") as f:    
+                    json.dump(self.halls, f, indent=4)
+            return True
         match choice:
             case "name":
-                try:
-                    with open("halls.json", "r", encoding="utf-8") as f:
-                        halls = json.load(f)
-                except FileNotFoundError:
-                    print(f"File not found in path {file_path_hall}")
-                    return False
-                else:
-                    for hall in halls:
-                        if hall["name"] == name:
-                            hall["name"] = new_amount
-                            break
-                        else:
-                            pass
-                    with open("halls.json", "w", encoding="utf-8") as f:    
-                        json.dump(halls, f, indent=4)
-
+                return checking_halls()
             case "capacity":
-
-                try:
-                    with open("halls.json", "r") as f:
-                        halls = json.load(f)
-                except FileNotFoundError:
-                    print(f"File not found in path {file_path_hall}")
-                    return False
-                else:
-                    for hall in halls:
-                        if hall["name"] == name:
-                            hall["capacity"] = new_amount
-                            break
-                        else:
-                            pass
-                    with open("halls.json", "w") as f:    
-                        json.dump(halls, f, indent=4)
-
+                return checking_halls()
             case "tools":
-
                 if isinstance(new_amount, str):
-                    tools = [tool.strip() for tool in new_amount.split(",")]   
-                try:
-                    with open("halls.json", "r") as f:
-                        halls = json.load(f)
-                except FileNotFoundError:
-                    print(f"File not found in path {file_path_hall}")
-                    return False
+                    new_amount = [tool.strip() for tool in new_amount.split(",")]   
+                    return checking_halls()
                 else:
-                    for hall in halls:
-                        if hall["name"] == name:
-                            hall["tools"] = tools
-                            break
-                        else:
-                            pass
-                    with open("halls.json", "w") as f:    
-                        json.dump(halls, f, indent=4)
-
-            case "hall_status":
-
-                try:
-                    with open("halls.json", "r") as f:
-                        halls = json.load(f)
-                except FileNotFoundError:
-                    print("File halls.json not found.")
+                    print("enter tools in a sentence seperated by ',' ")
                     return False
-                for hall in halls:
-                    if hall["name"] == name:
-                        hall["hall_status"] = new_amount
-                        break
-                    else:
-                        pass
-                with open("halls.json", "w") as f:
-                    json.dump(halls, f, indent=4)
-                return True
+            case "hall_status":
+                return checking_halls()
+            case _:
+                print("invalid choice !")
+                return False
 
     # Show halls general info
 
     def show_hall_info(self):
-        try:
-            with open("halls.json", "r", encoding="utf-8") as f:
-                halls = json.load(f)
-        except FileNotFoundError:
-            print(f"File not found in path: {file_path_hall}")
-            return False
-        else:
-            for hall in halls:
+            for hall in self.halls:
                 for key, value in hall.items():
                     print(f"{key} : {value}")
                 print("---------------------------------------------------------------------------------------------------------------------------------------------------------------")
@@ -327,41 +192,16 @@ class Manage:
         if class_type not in class_types:
             print("Mentioned class type is not valid!")
             return False
-
-        try:
-            with open("classes.json", "r", encoding="utf-8") as f:
-                classes = json.load(f)
-        except FileNotFoundError:
-            print("File not found: classes.json")
-            return False
-        except json.JSONDecodeError:
-            print("classes.json contains invalid JSON!")
-            return False
-
-        try:
-            with open("halls.json", "r", encoding="utf-8") as h:
-                halls = json.load(h)
-
-            with open("users.json", "r", encoding="utf-8") as c:
-                coaches = json.load(c)
-
-        except FileNotFoundError:
-            print("Hall or User file not found!")
-            return False
-        except json.JSONDecodeError:
-            print("halls.json or users.json contains invalid JSON!")
-            return False
-
         hall_key = 0
         coach_key = 0
 
-        for hal in halls:
+        for hal in self.halls:
             if hal["name"] == hall:
                 if hal["hall_status"] is True:
                     hall_key = 1
                 break
 
-        for coach in coaches:
+        for coach in self.users:
             if coach["username"] == coach_user:
                 if coach["active_status"] is True:
                     coach_key = 1
@@ -386,30 +226,15 @@ class Manage:
             "class_status": status
         }
 
-        classes.append(clas)
-
-        try:
-            with open("classes.json", "w", encoding="utf-8") as f:
-                json.dump(classes, f, indent=4)
-        except OSError:
-            print("Could not save the class!")
-            return False
-
+        self.classes.append(clas)
+        with open(file_path_classes, "w", encoding="utf-8") as f:
+                json.dump(self.classes, f, indent=4)
         return True
-
 
     # Edit Classes info
 
 
     def edit_class_info(self, name, edit_item, item_value):
-
-
-        try:
-            with open("classes.json", "r", encoding="utf-8") as f:
-                classes = json.load(f)
-        except FileNotFoundError:
-            print("File not found: classes.json")
-            return False
 
         editable_items = [
             "title", "class_type", "coach", "sport_hall",
@@ -423,7 +248,7 @@ class Manage:
         # Find the class by its current title
         target_class = None
 
-        for clas in classes:
+        for clas in self.classes:
             if clas["title"] == name:
                 target_class = clas
                 break
@@ -442,25 +267,16 @@ class Manage:
 
     # Validate coach
         if edit_item == "coach":
-            try:
-                with open("users.json", "r", encoding="utf-8") as f:
-                    users = json.load(f)
-            except FileNotFoundError:
-                print("Users file not found!")
-                return False
-            except json.JSONDecodeError:
-                print("users.json contains invalid JSON!")
-                return False
 
             coach_found = False
 
-            for user in users:
+            for user in self.users:
                 if user.get("username") == item_value:
                     if user.get("authority") != "coach":
                         print("Selected user is not a coach!")
                         return False
 
-                    if user.get("active_status") is not True:
+                    elif user.get("active_status") is not True:
                         print("Coach status is not active!")
                         return False
 
@@ -473,20 +289,11 @@ class Manage:
 
     # Validate sport hall
         if edit_item == "sport_hall":
-            try:
-                with open("halls.json", "r", encoding="utf-8") as f:
-                    halls = json.load(f)
-            except FileNotFoundError:
-                print("Halls file not found!")
-                return False
-            except json.JSONDecodeError:
-                print("halls.json contains invalid JSON!")
-                return False
 
             hall_found = False
             selected_hall = None
 
-            for hall in halls:
+            for hall in self.halls:
                 if hall.get("name") == item_value:
                     if hall.get("hall_status") is not True:
                         print("Hall is not active!")
@@ -511,18 +318,8 @@ class Manage:
                 print("Capacity must be a positive integer!")
                 return False
 
-            try:
-                with open("halls.json", "r", encoding="utf-8") as f:
-                    halls = json.load(f)
-            except FileNotFoundError:
-                print("Halls file not found!")
-                return False
-            except json.JSONDecodeError:
-                print("halls.json contains invalid JSON!")
-                return False
-
             current_hall = next(
-                (hall for hall in halls
+                (hall for hall in self.halls
                  if hall.get("name") == target_class.get("sport_hall")),
                 None
             )
@@ -543,27 +340,14 @@ class Manage:
 
     # Apply the change
         target_class[edit_item] = item_value
-
-        try:
-            with open("classes.json", "w", encoding="utf-8") as f:
-                json.dump(classes, f, indent=4, ensure_ascii=False)
-        except OSError:
-            print("Could not save the class information!")
-            return False
-
+        with open("classes.json", "w", encoding="utf-8") as f:
+                json.dump(self.classes, f, indent=4, ensure_ascii=False)
         return True
 
     # Show classes
 
     def show_class_info(self):
-        try:
-            with open("classes.json", "r") as f:
-                classes = json.load(f)
-        except FileNotFoundError:
-            print(f"File not found in path {file_path_classes}")
-            return False
-        else:
-            for clas in classes:
+            for clas in self.classes:
                 for key, value in clas.items():
                     print(f"{key} : {value}")
                 print("---------------------------------------------------------------------------------------------------------------------------------------------------------------")
