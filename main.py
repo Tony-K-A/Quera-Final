@@ -33,4 +33,3 @@ authority = 'manager'
 match authority:
     case "manager":
         manager = Manage()
-        manager.edit_class_info("Gym Class", "coach", "coach4")

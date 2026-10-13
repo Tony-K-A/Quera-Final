@@ -399,15 +399,15 @@ class Manage:
 
     # Edit Classes info
 
+
     def edit_class_info(self, name, edit_item, item_value):
+
+
         try:
             with open("classes.json", "r", encoding="utf-8") as f:
                 classes = json.load(f)
         except FileNotFoundError:
             print("File not found: classes.json")
-            return False
-        except json.JSONDecodeError:
-            print("classes.json contains invalid JSON!")
             return False
 
         editable_items = [
@@ -419,30 +419,19 @@ class Manage:
             print("Invalid item to edit!")
             return False
 
-        if edit_item == "coach":
-            try:
-                with open("users.json", "r", encoding="utf-8") as f:
-                    coaches = json.load(f)
-            except FileNotFoundError:
-                print("Users file not found!")
-                return False
+        # Find the class by its current title
+        target_class = None
 
-            coach_found = False
+        for clas in classes:
+            if clas["title"] == name:
+                target_class = clas
+                break
 
-            for coach in coaches:
-                if coach["username"] == item_value:
-                    coach_found = True
+        if target_class is None:
+            print("Class not found!")
+            return False
 
-                    if coach["active_status"] is not True:
-                        print("Coach status is not active!")
-                        return False
-
-                    break
-
-            if not coach_found:
-                print("Coach not found!")
-                return False
-
+    # Validate class type
         if edit_item == "class_type":
             class_types = ["gym", "crossfit", "fitness", "yoga"]
 
@@ -450,27 +439,119 @@ class Manage:
                 print("Mentioned class type is not valid!")
                 return False
 
-        class_found = False
+    # Validate coach
+        if edit_item == "coach":
+            try:
+                with open("users.json", "r", encoding="utf-8") as f:
+                    users = json.load(f)
+            except FileNotFoundError:
+                print("Users file not found!")
+                return False
+            except json.JSONDecodeError:
+                print("users.json contains invalid JSON!")
+                return False
 
-        for clas in classes:
-            if clas["title"] == name:
-                clas[edit_item] = item_value
-                class_found = True
-                break
+            coach_found = False
 
-        if not class_found:
-            print("Class not found!")
-            return False
+            for user in users:
+                if user.get("username") == item_value:
+                    if user.get("authority") != "coach":
+                        print("Selected user is not a coach!")
+                        return False
+
+                    if user.get("active_status") is not True:
+                        print("Coach status is not active!")
+                        return False
+
+                    coach_found = True
+                    break
+
+            if not coach_found:
+                print("Coach not found!")
+                return False
+
+    # Validate sport hall
+        if edit_item == "sport_hall":
+            try:
+                with open("halls.json", "r", encoding="utf-8") as f:
+                    halls = json.load(f)
+            except FileNotFoundError:
+                print("Halls file not found!")
+                return False
+            except json.JSONDecodeError:
+                print("halls.json contains invalid JSON!")
+                return False
+
+            hall_found = False
+            selected_hall = None
+
+            for hall in halls:
+                if hall.get("name") == item_value:
+                    if hall.get("hall_status") is not True:
+                        print("Hall is not active!")
+                        return False
+
+                    selected_hall = hall
+                    hall_found = True
+                    break
+
+            if not hall_found:
+                print("Sport hall not found!")
+                return False
+
+        # Ensure the class capacity fits in the selected hall
+            if target_class.get("capacity", 0) > selected_hall.get("capacity", 0):
+                print("Class capacity exceeds hall capacity!")
+                return False
+
+    # Validate capacity
+        if edit_item == "capacity":
+            if type(item_value) is not int or item_value <= 0:
+                print("Capacity must be a positive integer!")
+                return False
+
+            try:
+                with open("halls.json", "r", encoding="utf-8") as f:
+                    halls = json.load(f)
+            except FileNotFoundError:
+                print("Halls file not found!")
+                return False
+            except json.JSONDecodeError:
+                print("halls.json contains invalid JSON!")
+                return False
+
+            current_hall = next(
+                (hall for hall in halls
+                 if hall.get("name") == target_class.get("sport_hall")),
+                None
+            )
+
+            if current_hall is None:
+                print("Current sport hall not found!")
+                return False
+
+            if item_value > current_hall.get("capacity", 0):
+                print("Class capacity exceeds hall capacity!")
+                return False
+
+    # Validate class status
+        if edit_item == "class_status":
+            if type(item_value) is not bool:
+                print("Class status must be True or False!")
+                return False
+
+    # Apply the change
+        target_class[edit_item] = item_value
 
         try:
             with open("classes.json", "w", encoding="utf-8") as f:
-                json.dump(classes, f, indent=4)
+                json.dump(classes, f, indent=4, ensure_ascii=False)
         except OSError:
             print("Could not save the class information!")
             return False
 
         return True
-    #This Module is not Operating correctly. Don't add yet...
+
     # Show classes
 
     def show_class_info(self):
