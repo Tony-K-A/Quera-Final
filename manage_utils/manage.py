@@ -1,10 +1,13 @@
 import re
 import json
 from pathlib import Path
-
+from datetime import datetime, timedelta
+import uuid
 file_path = Path(__file__).resolve().parent / "users.json"
 file_path_hall = Path(__file__).resolve().parent / "halls.json"
 file_path_classes = Path(__file__).resolve().parent / "classes.json"
+file_path_subscriptions = Path(__file__).resolve().parent / "subscriptions.json"
+file_path_payments = Path(__file__).resolve().parent / "payments.json"
 def checking_json_files(path):
         if not path.exists():
             with open(path,"w",encoding="utf-8") as f:
@@ -15,13 +18,14 @@ def checking_json_files(path):
                 with open(path,"r",encoding="utf-8") as f:
                     return json.load(f)
             except json.JSONDecodeError:
-                print(f"{path} contains invalid JSON!")
-                return False
+                raise ValueError(f"{path} contains invalid JSON!")
 class Manage:
     def __init__(self):
             self.users=checking_json_files(file_path)
             self.halls=checking_json_files(file_path_hall)
-            self.classes=checking_json_files(file_path_classes)  
+            self.classes=checking_json_files(file_path_classes)
+            self.subscriptions=checking_json_files(file_path_subscriptions)
+            self.payments=checking_json_files(file_path_payments )  
     @staticmethod
     def show_panel():
         print("1. Users management")
@@ -64,7 +68,7 @@ class Manage:
 
                     }
                 self.users.append(coach)
-                with open(file_path, "w") as f:
+                with open(file_path, "w",encoding="utf-8") as f:
                         json.dump(self.users, f, indent=4)
                 return True
         else:
@@ -103,10 +107,11 @@ class Manage:
                     print("email is invalid")
                     return False    
             case "active_status":
-                if amount==True or amount==False:
+                if type(amount)==bool:
                     return checking_username()
                 else:
                     print("invalid active_status")
+                    return False
             case _:
                 print("Invalid selection! ")
                 return False
@@ -121,8 +126,10 @@ class Manage:
     # Add hall
 
     def add_hall(self, name, capacity, tools, hall_status):
-
         if isinstance(tools, str):
+            if any(hall.get("name") == name for hall in self.halls):
+                print(f"hall '{name}' already exists!")
+                return False
             tools = [tool.strip() for tool in tools.split(",")]
             hall = {
                     "name": name,
@@ -161,7 +168,11 @@ class Manage:
             case "name":
                 return checking_halls()
             case "capacity":
-                return checking_halls()
+                if type(new_amount) is int and new_amount>=0:
+                    return checking_halls()
+                else:
+                    print("capacity should be integer!")
+                    return False
             case "tools":
                 if isinstance(new_amount, str):
                     new_amount = [tool.strip() for tool in new_amount.split(",")]   
@@ -188,21 +199,25 @@ class Manage:
 
     def add_class(self, name, class_type, coach_user, hall, date, time, capacity, status):
         class_types = ["gym", "crossfit", "fitness", "yoga"]
-
+        if any(clas.get("title") == name for clas in self.classes):
+            print("the class already exists!")
+            return False
         if class_type not in class_types:
             print("Mentioned class type is not valid!")
             return False
         hall_key = 0
         coach_key = 0
-
+        if capacity<=0 or type(capacity) is not int:
+            print("invalid amount for capacity")
+            return False
         for hal in self.halls:
             if hal["name"] == hall:
-                if hal["hall_status"] is True:
+                if hal["hall_status"] is True and hal["capacity"]>=capacity:
                     hall_key = 1
                 break
 
         for coach in self.users:
-            if coach["username"] == coach_user:
+            if coach["username"] == coach_user and coach["authority"]=="coach":
                 if coach["active_status"] is True:
                     coach_key = 1
                 break
@@ -212,8 +227,8 @@ class Manage:
             return False
 
         if hall_key != 1:
-            print("Hall not found or hall status is not active!")
-            return False
+            print("Hall not found or hall status is not active or class capacity exceeds the hall's capacity!")
+            return False 
 
         clas = {
             "title": name,
@@ -340,7 +355,7 @@ class Manage:
 
     # Apply the change
         target_class[edit_item] = item_value
-        with open("classes.json", "w", encoding="utf-8") as f:
+        with open(file_path_classes, "w", encoding="utf-8") as f:
                 json.dump(self.classes, f, indent=4, ensure_ascii=False)
         return True
 
@@ -350,4 +365,170 @@ class Manage:
             for clas in self.classes:
                 for key, value in clas.items():
                     print(f"{key} : {value}")
-                print("---------------------------------------------------------------------------------------------------------------------------------------------------------------")
+                print("-" * 50)
+    def create_subscription(self, member_username, sub_type, amount):
+        
+            valid_types = {
+                "1-month": 30,
+                "3-month": 90,
+                "6-month": 180
+            }
+            if sub_type not in valid_types:
+                print("Invalid subscription type! Choose: 1-month, 3-month, 6-month")
+                return False
+            
+            if not isinstance(amount, (int, float)) or amount <= 0:
+                print("Amount must be a positive number!")
+                return False
+    
+            # Check member exists and is a gym_user + active
+            member = None
+            for user in self.users:
+                if user.get("username") == member_username:
+                    if user.get("authority") != "gym_user":
+                        print("Selected user is not a gym member!")
+                        return False
+                    if user.get("active_status") is not True:
+                        print("Member account is not active!")
+                        return False
+                    member = user
+                    break
+    
+            if member is None:
+                print(f"Member with username '{member_username}' not found!")
+                return False
+            now = datetime.now()
+            start_date = now.strftime("%Y-%m-%d")
+            end_date = (now + timedelta(days=valid_types[sub_type])).strftime("%Y-%m-%d")
+            tracking_number = str(uuid.uuid4())[:8].upper()
+    
+            subscription = {
+                "member_username": member_username,
+                "member_name": member.get("name"),
+                "sub_type": sub_type,
+                "amount": amount,
+                "start_date": start_date,
+                "end_date": end_date,
+                "status": "active",
+                "tracking_number": tracking_number
+            }
+    
+            payment = {
+                "member_username": member_username,
+                "member_name": member.get("name"),
+                "sub_type": sub_type,
+                "amount": amount,
+                "payment_date": start_date,
+                "start_date": start_date,
+                "end_date": end_date,
+                "tracking_number": tracking_number
+            }
+    
+            # Deactivate previous active subscriptions of this member
+            for sub in self.subscriptions:
+                if sub.get("member_username") == member_username and sub.get("status") == "active":
+                    sub["status"] = "expired"
+    
+            self.subscriptions.append(subscription)
+            self.payments.append(payment)
+            with open(file_path_subscriptions, "w", encoding="utf-8") as f:
+                    json.dump(self.subscriptions, f, indent=4)
+            with open(file_path_payments, "w", encoding="utf-8") as f:
+                    json.dump(self.payments, f, indent=4)
+    
+            print(f"Subscription created successfully! Tracking number: {tracking_number}")
+            return True
+    
+    def show_payments(self):
+            if not self.payments:
+                print("No payments recorded.")
+                return False
+    
+            print("\n========== All Payments ==========")
+            for p in self.payments:
+                print(f"Member Name : {p.get('member_name')}")
+                print(f"Username : {p.get('member_username')}")
+                print(f"Subscription : {p.get('sub_type')}")
+                print(f"Amount : {p.get('amount')}")
+                print(f"Payment Date : {p.get('payment_date')}")
+                print(f"Start Date : {p.get('start_date')}")
+                print(f"End Date        : {p.get('end_date')}")
+                print(f"Tracking Number : {p.get('tracking_number')}")
+                print("-" * 50)
+            return True
+    
+    def show_subscription_status(self, member_username=None):
+    
+            members = [u for u in self.users if u.get("authority") == "gym_user"]
+    
+            if member_username:
+                members = [m for m in members if m.get("username") == member_username]
+                if not members:
+                    print(f"Member '{member_username}' not found!")
+                    return False
+    
+            print("\n========== Subscription Status ==========")
+            for member in members:
+                username = member.get("username")
+                name = member.get("name")
+    
+                # Find latest subscription for this member
+                member_subs = [s for s in self.subscriptions if s.get("member_username") == username]
+                if not member_subs:
+                    status = "no_subscription"
+                    sub_info = None
+                else:
+                    # Sort by end_date descending
+                    member_subs.sort(key=lambda x: x.get("end_date", ""), reverse=True)
+                    latest = member_subs[0]
+                    end_date = latest.get("end_date")
+                    try:
+                        if datetime.strptime(end_date, "%Y-%m-%d") >= datetime.now():
+                            status = "active"
+                        else:
+                            status = "expired"
+                            latest["status"] = "expired"
+                    except ValueError:
+                        status = "expired"
+                    sub_info = latest
+    
+                print(f"Name : {name}")
+                print(f"Username : {username}")
+                print(f"Status : {status}")
+                if sub_info:
+                    print(f"Type : {sub_info.get('sub_type')}")
+                    print(f"Start Date : {sub_info.get('start_date')}")
+                    print(f"End Date : {sub_info.get('end_date')}")
+                    print(f"Tracking Number : {sub_info.get('tracking_number')}")
+                print("-" * 50)
+    
+            return True
+    
+        # Reports
+    
+    def show_reports(self):
+            active_members = sum(
+                1 for u in self.users
+                if u.get("authority") == "gym_user" and u.get("active_status") is True
+            )
+            active_coaches = sum(
+                1 for u in self.users
+                if u.get("authority") == "coach" and u.get("active_status") is True
+            )
+    
+            # 3. Active classes
+            active_classes = sum(
+                1 for c in self.classes if c.get("class_status") is True
+            )
+    
+            # 4. Total revenue
+            total_revenue = sum(p.get("amount", 0) for p in self.payments)
+    
+            print("\n========== Manager Reports ==========")
+            print(f"1. Active Members   : {active_members}")
+            print(f"2. Active Coaches   : {active_coaches}")
+            print(f"3. Active Classes   : {active_classes}")
+            print(f"4. Total Revenue    : {total_revenue}")
+            print("=" * 40)
+            return True
+    
