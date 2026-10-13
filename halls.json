@@ -1,22 +1,31 @@
 [
     {
-        "name": "Bargesabz",
-        "capacity": 200,
+        "name": "Gym Saloon",
+        "capacity": 120,
         "tools": [
-            "Elepticals",
-            "Jogging tools",
-            "mountain tools"
+            "treadmils",
+            "weights",
+            "elepticals"
+        ],
+        "hall_status": true
+    },
+    {
+        "name": "Barghesabz",
+        "capacity": 80,
+        "tools": [
+            "treadmils",
+            "weights",
+            "elepticals",
+            "press-machines"
         ],
         "hall_status": true
     },
     {
         "name": "Persia",
-        "capacity": 100,
+        "capacity": 110,
         "tools": [
-            "Elepticals",
-            "Treadmils",
-            "Bicycles",
-            "Weights"
+            "dumbels",
+            "weights"
         ],
         "hall_status": true
     }

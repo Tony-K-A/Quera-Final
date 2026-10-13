@@ -1,29 +1,12 @@
 [
     {
-        "title": "gym_class",
+        "title": "Gym Class",
         "class_type": "gym",
-        "coach": "HRambod",
-        "sport_hall": "Bargesabz",
+        "coach": "coach1",
+        "sport_hall": "Persia",
         "class_date": "Tuesday",
-        "class_time": "18:00",
-        "capacity": 50
-    },
-    {
-        "title": "gym_class",
-        "class_type": "gym",
-        "coach": "SarDal123",
-        "sport_hall": "Bargesabz",
-        "class_date": "Tuesday",
-        "class_time": "18:00",
-        "capacity": 50
-    },
-    {
-        "title": "gym_class",
-        "class_type": "gym",
-        "coach": "SarDal123",
-        "sport_hall": "Bargesabz",
-        "class_date": "Tuesday",
-        "class_time": "18:00",
-        "capacity": 50
+        "class_time": "19:00",
+        "capacity": 50,
+        "class_status": true
     }
 ]
