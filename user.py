@@ -1,116 +1,15 @@
-# ---------------- داده‌ها ----------------
-members = {
-    "sarax": {
-        "name": "sara",
-        "password": "4567",
-        "email": "sara@gmail.com",
-        "subscription_status": "active",
-        "account_status": "active",
-        "role": "member",
-        "subscription_type": "1 months",
-        "wallet_balance": 0,
-        "start_date": "1402/05/11",
-        "end_date": "1403/05/11",
-        "enrolled_classes": [],
-        "registrations": [
-            {
-                "class_name": "yoga",
-                "register_date": "1403/07/20",
-                "status": "active",
-                "tracking_code": "REG_1001",
-            },
-        ],
-    },
-    "alirt6": {
-        "name": "ali",
-        "password": "1234",
-        "email": "ali@gmail.com",
-        "subscription_status": "active",
-        "account_status": "active",
-        "role": "coach",
-        "subscription_type": "none",
-        "wallet_balance": 0,
-        "start_date": "1405/08/10",
-        "end_date": "1406/08/10",
-        "enrolled_classes": [],
-        "registrations": [
-            {
-                "class_name": "pilates",
-                "register_date": "1404/04/13",
-                "status": "inactive",
-                "tracking_code": "WE10",
-            },
-        ],
-    },
-    "arya56": {
-        "name": "arya",
-        "password": "8970",
-        "email": "aryan@gmail.com",
-        "subscription_status": "inactive",
-        "account_status": "inactive",
-        "role": "member",
-        "subscription_type": "none",
-        "wallet_balance": 0,
-        "start_date": "1402/04/07",
-        "end_date": "1403/04/07",
-        "enrolled_classes": [],
-        "registrations": [
-            {
-                "class_name": "fitness",
-                "register_date": "1403/07/13",
-                "status": "inactive",
-                "tracking_code": "WE11",
-            },
-        ],
-    },
-}
+# ---------------- data----------------
+import json
 
-classes = {
-    "C101": {
-        "title": "Gym Class",
-        "class_type": "gym",
-        "coach": "coach1",
-        "sport_hall": "Persia",
-        "class_date": "Tuesday",
-        "class_time": "19:00",
-        "capacity": 50,
-        "remaining": 50,
-        "class_status": True,
-        "workout_plan": ["Warm up", "Deadlift", "Cool down"],
-    },
-    "C102": {
-        "title": "Yoga",
-        "class_type": "yoga",
-        "coach": "coach2",
-        "sport_hall": "Persia",
-        "class_date": "Wednesday",
-        "class_time": "18:00",
-        "capacity": 20,
-        "remaining": 20,
-        "class_status": True,
-        "workout_plan": ["Sun salutation", "Downward dog", "Relaxation"],
-    },
-    "C103": {
-        "title": "Pilates",
-        "class_type": "pilates",
-        "coach": "coach3",
-        "sport_hall": "Persia",
-        "class_date": "Monday",
-        "class_time": "18:00",
-        "capacity": 15,
-        "remaining": 15,
-        "class_status": False,
-        "workout_plan": ["Roll up", "Single leg stretch", "Spine stretch"],
-    },
-}
-subscriptions = {
-    "1": {"title": "1 months", "price": 100, "months": 1},
-    "2": {"title": "3 months", "price": 250, "months": 3},
-    "3": {"title": "6 months", "price": 450, "months": 6},
-}
+with open("data.json", "r", encoding="utf-8") as file:
+    data = json.load(file)
+
+members = data["members"]
+classes = data["classes"]
+subscription = data["subscription"]
 
 
-# ---------------- ورود ----------------
+# ---------------- ----------------
 def login():
     attempts = 0
     while attempts < 3:
@@ -196,17 +95,17 @@ def cancel_registration(member):
 
 
 def pay_subscription(member):
-    for sub_key, sub_info in subscriptions.items():
+    for sub_key, sub_info in subscription.items():
         print(sub_key, sub_info["title"], sub_info["price"])
     sub_id = input("enter sub id: ")
-    if sub_id not in subscriptions:
+    if sub_id not in subscription:
         print("Invalid subscription.")
-    elif member["wallet_balance"] < subscriptions[sub_id]["price"]:
+    elif member["wallet_balance"] < subscription[sub_id]["price"]:
         print("Insufficient balance")
     else:
-        member["wallet_balance"] -= subscriptions[sub_id]["price"]
+        member["wallet_balance"] -= subscription[sub_id]["price"]
         member["subscription_status"] = "active"
-        member["subscription_type"] = subscriptions[sub_id]["title"]
+        member["subscription_type"] = subscription[sub_id]["title"]
         print("successful")
 
 
