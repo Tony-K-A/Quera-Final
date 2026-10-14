@@ -1,0 +1,13 @@
+[
+    {
+        "title": "Gym Class",
+        "class_type": "gym",
+        "coach": "coach1",
+        "sport_hall": "Persia",
+        "class_date": "Tuesday",
+        "class_time": "19:00",
+        "capacity": 50,
+        "class_status": true
+        "members" : []
+    }
+]

@@ -1,74 +1,39 @@
 [
     {
-        "username": "coach1",
-        "name": "John Smith",
-        "password": "john123",
-        "email": "john@example.com",
-        "active_status": true
+        "username": "manager1",
+        "password": "Manager@123",
+        "authority": "manager"
     },
     {
-        "username": "coach2",
-        "name": "Sarah Johnson",
-        "password": "sarah456",
-        "email": "sarah@example.com",
-        "active_status": false
-    },
-    {
-        "username": "coach3",
-        "name": "Michael Brown",
-        "password": "mike789",
-        "email": "michael@example.com",
-        "active_status": true
-    },
-    {
-        "username": "coach4",
-        "name": "Emily Davis",
-        "password": "emily321",
-        "email": "emily@example.com",
-        "active_status": true
-    },
-    {
-        "username": "member1",
-        "name": "David Wilson",
-        "password": "david123",
-        "email": "david@example.com",
-        "active_status": true
-    },
-    {
-        "username": "member2",
-        "name": "Olivia Taylor",
-        "password": "olivia456",
-        "email": "olivia@example.com",
-        "active_status": false
-    },
-    {
-        "username": "member3",
-        "name": "James Anderson",
-        "password": "james789",
-        "email": "james@example.com",
-        "active_status": true
-    },
-    {
-        "username": "member4",
-        "name": "Sophia Martinez",
-        "password": "sophia321",
-        "email": "sophia@example.com",
-        "active_status": true
-    },
-    {
-        "name": "Amir",
+        "name": "coach",
         "authority": "coach",
-        "username": "AmirZH",
-        "password": "somepassword",
-        "email": "jahsdj@yahoo.com",
+        "username": "RVartan1",
+        "password": "Rony@123456",
+        "email": "rony@yahoo.com",
         "active_status": true
     },
     {
+        "name": "guest1",
         "authority": "gym_user",
+        "username": "guest1",
+        "password": "Guest@123",
+        "email": "guest1@yahoo.com",
+        "active_status": false
+    },
+    {
         "name": "Tony",
-        "username": "TC140",
-        "password": "qwerty",
-        "email": "qwerty@yahoo.com",
+        "authority": "gym_user",
+        "username": "TOny.R6MAnn",
+        "password": "123@passW",
+        "email": "tony@yahoo.com",
+        "active_status": true
+    },
+    {
+        "name": "Shahram Somebody",
+        "authority": "gym_user",
+        "username": "Shahrami",
+        "password": "123@Shah",
+        "email": "Shahram@yahoo.com",
         "active_status": true
     }
 ]

@@ -1,5 +1,6 @@
 [
     {
+<<<<<<< HEAD
         "title": "Gym Class",
         "class_type": "gym",
         "coach": "coach1",
@@ -8,5 +9,16 @@
         "class_time": "19:00",
         "capacity": 50,
         "class_status": true
+        "members" : []
+=======
+        "title": "Yoga N Gym",
+        "class_type": "yoga",
+        "coach": "RVartan1",
+        "sport_hall": "Gym",
+        "class_date": "Monday",
+        "class_time": "18:30",
+        "capacity": 80,
+        "class_status": true
+>>>>>>> 60af2971a8aa35a7abb6d7eda5bbeaea5ccf2867
     }
 ]
