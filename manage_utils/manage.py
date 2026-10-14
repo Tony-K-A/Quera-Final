@@ -367,7 +367,7 @@ class Manage:
                 for key, value in clas.items():
                     print(f"{key} : {value}")
                 print("-" * 50)
-
+####تا اینجا مطالعه شد
     def create_subscription(self, member_username, sub_type, amount):
         
             valid_types = {
