@@ -69,6 +69,6 @@
         "username": "TC140",
         "password": "qwerty",
         "email": "qwerty@yahoo.com",
-        "active_status": false
+        "active_status": true
     }
 ]

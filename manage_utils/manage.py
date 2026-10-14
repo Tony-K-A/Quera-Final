@@ -19,6 +19,7 @@ def checking_json_files(path):
                     return json.load(f)
             except json.JSONDecodeError:
                 raise ValueError(f"{path} contains invalid JSON!")
+
 class Manage:
     def __init__(self):
             self.users=checking_json_files(file_path)
@@ -121,7 +122,8 @@ class Manage:
             for user in self.users:
                 for key, value in user.items():
                     print(f"{key} : {value}")
-                print("----------------------------------------------------------------------------------------------------------------------------------------------------------")
+
+                print("-" * 50)
 
     # Add hall
 
@@ -192,7 +194,7 @@ class Manage:
             for hall in self.halls:
                 for key, value in hall.items():
                     print(f"{key} : {value}")
-                print("---------------------------------------------------------------------------------------------------------------------------------------------------------------")
+                print("-" * 50)
 
     # Classes Section
     # Add classes
@@ -247,7 +249,6 @@ class Manage:
         return True
 
     # Edit Classes info
-
 
     def edit_class_info(self, name, edit_item, item_value):
 
@@ -366,6 +367,7 @@ class Manage:
                 for key, value in clas.items():
                     print(f"{key} : {value}")
                 print("-" * 50)
+
     def create_subscription(self, member_username, sub_type, amount):
         
             valid_types = {
@@ -531,4 +533,3 @@ class Manage:
             print(f"4. Total Revenue    : {total_revenue}")
             print("=" * 40)
             return True
-    

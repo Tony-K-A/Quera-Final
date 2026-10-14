@@ -32,4 +32,19 @@ match login_choice:
 authority = 'manager'
 match authority:
     case "manager":
-        manager = Manage()
+        m = Manage()
+
+# Create subscription
+        m.create_subscription("TC140", "3-month", 1500000)
+
+# View payments
+        m.show_payments()
+
+# View status of all members
+        m.show_subscription_status()
+
+# View status of one member
+        m.show_subscription_status("ali123")
+
+# Reports
+        m.show_reports()
