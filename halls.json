@@ -1,31 +1,13 @@
 [
     {
-        "name": "Gym Saloon",
-        "capacity": 120,
+        "name": "Gym",
+        "capacity": 100,
         "tools": [
-            "treadmils",
-            "weights",
-            "elepticals"
-        ],
-        "hall_status": true
-    },
-    {
-        "name": "Barghesabz",
-        "capacity": 80,
-        "tools": [
-            "treadmils",
-            "weights",
-            "elepticals",
-            "press-machines"
-        ],
-        "hall_status": true
-    },
-    {
-        "name": "Persia",
-        "capacity": 110,
-        "tools": [
-            "dumbels",
-            "weights"
+            "Treadmils",
+            "Elepticals",
+            "Steps",
+            "Weights",
+            "Dumbells"
         ],
         "hall_status": true
     }
