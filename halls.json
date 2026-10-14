@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Gym",
+        "capacity": 100,
+        "tools": [
+            "Treadmils",
+            "Elepticals",
+            "Steps",
+            "Weights",
+            "Dumbells"
+        ],
+        "hall_status": true
+    }
+]

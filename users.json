@@ -1,18 +1,39 @@
 [
     {
-        "name": "Akbar",
+        "username": "manager1",
+        "password": "Manager@123",
+        "authority": "manager"
+    },
+    {
+        "name": "coach",
         "authority": "coach",
-        "username": "AmirZH",
-        "password": "AjabRamzi",
-        "email": "blik@yahoo.com",
+        "username": "RVartan1",
+        "password": "Rony@123456",
+        "email": "rony@yahoo.com",
+        "active_status": true
+    },
+    {
+        "name": "guest1",
+        "authority": "gym_user",
+        "username": "guest1",
+        "password": "Guest@123",
+        "email": "guest1@yahoo.com",
         "active_status": false
     },
     {
-        "authority": "gym_user",
         "name": "Tony",
-        "username": "Tonyzsh",
-        "password": "ajibpass",
+        "authority": "gym_user",
+        "username": "TOny.R6MAnn",
+        "password": "123@passW",
         "email": "tony@yahoo.com",
+        "active_status": true
+    },
+    {
+        "name": "Shahram Somebody",
+        "authority": "gym_user",
+        "username": "Shahrami",
+        "password": "123@Shah",
+        "email": "Shahram@yahoo.com",
         "active_status": true
     }
 ]
