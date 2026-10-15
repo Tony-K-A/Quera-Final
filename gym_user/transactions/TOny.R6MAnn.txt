@@ -46,3 +46,15 @@ Date: 2026-10-15T03:49:32-07:00
 Description: Purchased or renewed 1-month subscription
 Tracking number: SUB-87C59671EBDB
 ----------------------------------------
+Transaction type: Wallet charge
+Amount: 2,000,000 Toman
+Date: 2026-10-15T05:04:55-07:00
+Description: Wallet charged by card
+Tracking number: 12345678912345672000000615443
+----------------------------------------
+Transaction type: Subscription payment
+Amount: 2,000,000 Toman
+Date: 2026-10-15T05:05:42-07:00
+Description: Purchased or renewed 1-month subscription
+Tracking number: SUB-1B1BCA63233F
+----------------------------------------

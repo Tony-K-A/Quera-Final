@@ -32,7 +32,7 @@ class Coach(User):
     #         if self._is_active:
     #             canLog =False
     #             print("حساب شما غیر فعال هست در نتیجه شما نمی توانید وارد شوید")
-     def view_assigned_classes(self) -> list:
+    def view_assigned_classes(self) -> list:
         """
         """
         assigned_classes =[]
@@ -50,7 +50,7 @@ class Coach(User):
             return []
         self.__assigned_classes = assigned_classes
         return assigned_classes
-     def assign_workout_plan(self, gym_class, member, exercises: list[Exercise]) -> bool:
+    def assign_workout_plan(self, gym_class, member, exercises: list[Exercise]) -> bool:
         """
         بخش ۲.۲ مستند: مدیریت برنامه تمرینی
         الزامات امنیتی و منطقی:
