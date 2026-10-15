@@ -5,8 +5,8 @@
         "username": "guest1",
         "password": "Guest@123",
         "email": "guest1@yahoo.com",
-        "active_status": true,
-        "amount": 1000000,
+        "active_status": false,
+        "amount": 0,
         "sub_type": "",
         "start_date": "",
         "end_date": "",
@@ -19,12 +19,11 @@
         "password": "123@passW",
         "email": "tony@yahoo.com",
         "active_status": true,
-        "amount": 420000.0,
-        "sub_type": "1-month",
-        "start_date": "2027-05-12",
-        "end_date": "2027-06-12",
-        "status": "active",
-        "tracking_number": "SUB-87C59671EBDB"
+        "amount": 300000.0,
+        "sub_type": "6-month",
+        "start_date": "2026-10-14",
+        "end_date": "2027-04-12",
+        "status": "active"
     },
     {
         "name": "Shahram Somebody",
