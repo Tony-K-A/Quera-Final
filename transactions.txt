@@ -1,0 +1,3 @@
+OPENING-BALANCE|member1|opening_balance|3000000|2026-10-15 18:57:26|Opening wallet balance from initial data
+366DBC01|member1|charge|250000|2026-10-15 19:15:32|Wallet top-up by card
+B9BEA639|member1|payment|1000000|2026-10-15 19:16:13|Purchase of 3-month subscription

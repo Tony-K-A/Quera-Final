@@ -1,13 +1,31 @@
 [
     {
-        "name": "Gym",
-        "capacity": 100,
+        "name": "Main Hall",
+        "capacity": 30,
         "tools": [
-            "Treadmils",
-            "Elepticals",
-            "Steps",
-            "Weights",
-            "Dumbells"
+            "treadmill",
+            "dumbbell",
+            "bike"
+        ],
+        "hall_status": true
+    },
+    {
+        "name": "Yoga Room",
+        "capacity": 15,
+        "tools": [
+            "mat",
+            "block"
+        ],
+        "hall_status": true
+    },
+    {
+        "name": "Saras memorial hall",
+        "capacity": 200,
+        "tools": [
+            "treadmils",
+            "weights",
+            "dumbells",
+            "press_machines"
         ],
         "hall_status": true
     }

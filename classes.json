@@ -1,24 +1,32 @@
 [
     {
-<<<<<<< HEAD
-        "title": "Gym Class",
-        "class_type": "gym",
-        "coach": "coach1",
-        "sport_hall": "Persia",
-        "class_date": "Tuesday",
-        "class_time": "19:00",
-        "capacity": 50,
-        "class_status": true
-        "members" : []
-=======
-        "title": "Yoga N Gym",
+        "title": "Morning Yoga",
         "class_type": "yoga",
-        "coach": "RVartan1",
-        "sport_hall": "Gym",
+        "coach": "coach1",
+        "sport_hall": "Yoga Room",
+        "class_date": "Saturday",
+        "class_time": "08:00",
+        "capacity": 15,
+        "class_status": true
+    },
+    {
+        "title": "Evening Crossfit",
+        "class_type": "crossfit",
+        "coach": "coach2",
+        "sport_hall": "Main Hall",
         "class_date": "Monday",
         "class_time": "18:30",
-        "capacity": 80,
+        "capacity": 20,
         "class_status": true
->>>>>>> 60af2971a8aa35a7abb6d7eda5bbeaea5ccf2867
+    },
+    {
+        "title": "Living With Yoga",
+        "class_type": "crossfit",
+        "coach": "coach1",
+        "sport_hall": "Saras memorial hall",
+        "class_date": "Tuesday",
+        "class_time": "12:15",
+        "capacity": 40,
+        "class_status": true
     }
 ]
