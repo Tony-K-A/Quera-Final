@@ -1,5 +1,6 @@
 from manage_utils.manage import Manage
 from login_utils.login import *
+from gym_user.gym_user import Member
 
 while True:
 
@@ -386,7 +387,32 @@ while True:
 
     # -------------------- Member Login --------------------
     elif choice == 3:
-        print("\nMember login is not implemented yet.")
+        members = Member.load_members()
+        Member.save_members(members)
+        Member.setup_members()
+        while True:
+            member = Member.login()
+
+            # Return to the main menu
+            if member == "back":
+                print("\nReturning to main menu.")
+                break
+
+            # Login failed
+            if member is None:
+                print("Login failed. Please try again.")
+                continue
+
+            # Successful login
+            print(f"\nWelcome, {member['name']}")
+
+            result = Member.run_panel(member)
+
+            # Return to the main menu after logout
+            if result == "Exit":
+                print("\nReturning to main menu.")
+                break
+
 
     # -------------------- Exit --------------------
     elif choice == 4:
