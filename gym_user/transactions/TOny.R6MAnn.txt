@@ -1,0 +1,48 @@
+Transaction type: Wallet charge
+Amount: 120,000 Toman
+Date: 2026-10-14T19:24:19-07:00
+Description: Wallet charged by card
+Tracking number: 1234567891234567120000998238
+----------------------------------------
+Transaction type: Wallet charge
+Amount: 2,000,000 Toman
+Date: 2026-10-14T19:26:48-07:00
+Description: Wallet charged by card
+Tracking number: 12345678912345672000000558848
+----------------------------------------
+Transaction type: Subscription payment
+Amount: 2,000,000 Toman
+Date: 2026-10-14T19:27:41-07:00
+Description: Purchased or renewed 1-month subscription
+Tracking number: SUB-2CC09D641015
+----------------------------------------
+Transaction type: Subscription payment
+Amount: 2,000,000 Toman
+Date: 2026-10-14T19:29:42-07:00
+Description: Purchased or renewed 1-month subscription
+Tracking number: SUB-A687ECF5DC10
+----------------------------------------
+Transaction type: Wallet charge
+Amount: 1,000,000 Toman
+Date: 2026-10-14T22:14:26-07:00
+Description: Wallet charged by card
+Tracking number: 12345678912345671000000467196
+----------------------------------------
+Transaction type: Subscription payment
+Amount: 2,000,000 Toman
+Date: 2026-10-14T22:16:09-07:00
+Description: Purchased or renewed 1-month subscription
+Tracking number: SUB-D366F511B06C
+----------------------------------------
+Transaction type: Wallet charge
+Amount: 1,000,000 Toman
+Date: 2026-10-15T03:49:16-07:00
+Description: Wallet charged by card
+Tracking number: 12345678912345671000000525805
+----------------------------------------
+Transaction type: Subscription payment
+Amount: 2,000,000 Toman
+Date: 2026-10-15T03:49:32-07:00
+Description: Purchased or renewed 1-month subscription
+Tracking number: SUB-87C59671EBDB
+----------------------------------------

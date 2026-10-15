@@ -1,0 +1,42 @@
+[
+    {
+        "name": "guest1",
+        "authority": "gym_user",
+        "username": "guest1",
+        "password": "Guest@123",
+        "email": "guest1@yahoo.com",
+        "active_status": true,
+        "amount": 1000000,
+        "sub_type": "",
+        "start_date": "",
+        "end_date": "",
+        "status": "inactive"
+    },
+    {
+        "name": "Tony",
+        "authority": "gym_user",
+        "username": "TOny.R6MAnn",
+        "password": "123@passW",
+        "email": "tony@yahoo.com",
+        "active_status": true,
+        "amount": 420000.0,
+        "sub_type": "1-month",
+        "start_date": "2027-05-12",
+        "end_date": "2027-06-12",
+        "status": "active",
+        "tracking_number": "SUB-87C59671EBDB"
+    },
+    {
+        "name": "Shahram Somebody",
+        "authority": "gym_user",
+        "username": "Shahrami",
+        "password": "123@Shah",
+        "email": "Shahram@yahoo.com",
+        "active_status": true,
+        "amount": 220000.0,
+        "sub_type": "6-month",
+        "start_date": "2026-10-14",
+        "end_date": "2027-04-12",
+        "status": "active"
+    }
+]

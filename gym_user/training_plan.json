@@ -1,0 +1,33 @@
+[
+    {
+        "username": "guest1",
+        "exercises": [
+            {
+                "name": "Squat",
+                "sets": 3,
+                "repetitions": 12,
+                "rest_time": "60 seconds",
+                "description": "Keep your back straight."
+            },
+            {
+                "name": "Push-up",
+                "sets": 3,
+                "repetitions": 8,
+                "rest_time": "90 seconds",
+                "description": "Perform the movement with control."
+            }
+        ]
+    },
+    {
+        "username": "TOny.R6MAnn",
+        "exercises": [
+            {
+                "name": "Walking",
+                "sets": 1,
+                "repetitions": 1,
+                "rest_time": "0 seconds",
+                "description": "Walk at a comfortable pace."
+            }
+        ]
+    }
+]
