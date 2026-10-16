@@ -1,1 +1,23 @@
-[]
+[
+    {
+        "class_title": "Kamrans bodybuilding",
+        "member_username": "JSH",
+        "coach": "coach1",
+        "exercises": [
+            {
+                "name": "CrossFromabove",
+                "sets": 4,
+                "reps": 12,
+                "rest_seconds": 30,
+                "description": ""
+            },
+            {
+                "name": "ChestPress",
+                "sets": 3,
+                "reps": 10,
+                "rest_seconds": 20,
+                "description": "Do not rest more than 20s"
+            }
+        ]
+    }
+]

@@ -10,7 +10,7 @@
         "hall_status": true
     },
     {
-        "name": "Yoga Room",
+        "name": "Yoga Yoshida",
         "capacity": 15,
         "tools": [
             "mat",
@@ -19,10 +19,9 @@
         "hall_status": true
     },
     {
-        "name": "Saras memorial hall",
-        "capacity": 200,
+        "name": "Saras Mentoring Hall",
+        "capacity": 90,
         "tools": [
-            "treadmils",
             "weights",
             "dumbells",
             "press_machines"

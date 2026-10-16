@@ -3,7 +3,7 @@
         "name": "Manager",
         "authority": "admin",
         "username": "admin",
-        "password": "pbkdf2_sha256$310000$481220484a24480b247350fd3292c705$db762d4b6536a0497171ceccfa57f0174d9a6e8079dee5776af876b182a91b04",
+        "password": "pbkdf2_sha256$310000$23c41117eafce339778ab1ed974552c7$b22a56810e223b761242f03b98c92155b075c1ed6c3dd3aa322c9cebf5c8fa46",
         "email": "admin@gym.com",
         "active_status": true
     },
@@ -11,7 +11,7 @@
         "name": "Sara Coach",
         "authority": "coach",
         "username": "coach1",
-        "password": "pbkdf2_sha256$310000$9fc1d9c112d9560a84753a1861e5e757$532f1461635f8ba2481aae49e3e2673aa519a891593b59a75ace352f1635898d",
+        "password": "pbkdf2_sha256$310000$1eda9cd4a22a8e1f123cc230af97e1c6$11214f530e83c88f73f34e5c32de54384b42ef58336086b64e166aa23b0d0b53",
         "email": "coach1@gym.com",
         "active_status": true
     },
@@ -27,7 +27,7 @@
         "name": "Mina Member",
         "authority": "gym_user",
         "username": "member1",
-        "password": "pbkdf2_sha256$310000$b91fcfb49748567c97b5291c3f4db546$733f59689b04d13933fa45760edd24f8eb85a389da078b7d74459c07c36ed8cf",
+        "password": "Mina@123",
         "email": "member1@gym.com",
         "active_status": true
     },
@@ -40,27 +40,19 @@
         "active_status": true
     },
     {
-        "name": "Sara Daliri",
+        "name": "Kamran Saeidi",
         "authority": "coach",
-        "username": "SaraDL",
-        "password": "pbkdf2_sha256$310000$b52a60ee62b109905ee67023fb02b5cf$d4c502717e1ce0df298f0095ad9d9f8d45e9e30cb2a140a7398994df881bfe14",
-        "email": "saradl@yahoo.com",
-        "active_status": true
-    },
-    {
-        "name": "Tony Ghafel",
-        "authority": "gym_user",
-        "username": "TonyCA",
-        "password": "pbkdf2_sha256$310000$a6c53a3dc76457595bf2a881a60e8f39$d13c07b822bc483f8af2964252bf75857f5c3e1e6f79925bbfb33b2eae5a0d5a",
-        "email": "tony@yahoo.com",
+        "username": "KamranS",
+        "password": "pbkdf2_sha256$310000$50507bcda6c3b33dfc01ff5847effa4c$c29f3a1a54531b2c1f7be4a4ab93ce894ffe50ff8d3a7c3530bc28824580a7d4",
+        "email": "kamran@yahoo.com",
         "active_status": false
     },
     {
-        "name": "Tony Ghafel",
+        "name": "Jamshid Fakhredinpour",
         "authority": "gym_user",
-        "username": "TONYGH",
-        "password": "pbkdf2_sha256$310000$50ff1fc961e2bbe296151cb33b51d7ee$f325936d81597a480057c291dda408d68261c6b7b9e84b0f678911233f30354e",
-        "email": "tony@yahoo.com",
+        "username": "JSH",
+        "password": "pbkdf2_sha256$310000$e7e710cd0dd976d0bf0129c1f9d934bf$8bae819c804c95f1020502e6419813a4152f73ab2437bc334a39a8c271b49a49",
+        "email": "jamshid@yahoo.com",
         "active_status": true
     }
 ]

@@ -3,11 +3,11 @@
         "title": "Morning Yoga",
         "class_type": "yoga",
         "coach": "coach1",
-        "sport_hall": "Yoga Room",
+        "sport_hall": "Yoga Yoshida",
         "class_date": "Saturday",
         "class_time": "08:00",
         "capacity": 15,
-        "class_status": true
+        "class_status": false
     },
     {
         "title": "Evening Crossfit",
@@ -20,12 +20,12 @@
         "class_status": true
     },
     {
-        "title": "Living With Yoga",
+        "title": "Kamrans bodybuilding",
         "class_type": "crossfit",
         "coach": "coach1",
-        "sport_hall": "Saras memorial hall",
+        "sport_hall": "Saras Mentoring Hall",
         "class_date": "Tuesday",
-        "class_time": "12:15",
+        "class_time": "12:00",
         "capacity": 40,
         "class_status": true
     }

@@ -210,7 +210,6 @@ class WalletService:
         return rows
 
     @staticmethod
-    @db.log_action("wallet_charge")
     def charge(username, amount, card, exp_month, exp_year, bank_password, cvv2):
         user = find_user(username)
         if user is None or user.get("authority") != "gym_user" or user.get("active_status") is not True:
@@ -238,7 +237,6 @@ class WalletService:
         return True
 
     @staticmethod
-    @db.log_action("buy_subscription")
     def buy_subscription(username, plan_key):
         plan = PLANS.get(plan_key)
         user = find_user(username)
@@ -299,7 +297,6 @@ class EnrollmentService:
         return gym_class.get("capacity", 0) - len(EnrollmentService.active_for_class(gym_class.get("title")))
 
     @staticmethod
-    @db.log_action("enroll")
     def enroll(username, title):
         if SubscriptionService.status(username)[0] != "active":
             print("You need an active subscription to enroll in a class.")
@@ -342,7 +339,6 @@ class EnrollmentService:
         return True
 
     @staticmethod
-    @db.log_action("withdraw")
     def withdraw(username, title):
         enrollments = db.load_json(db.ENROLLMENTS, [])
         record = next((e for e in enrollments if e.get("member_username") == username
@@ -391,7 +387,6 @@ class WorkoutService:
                 and isinstance(exercise.get("rest_seconds"), int) and exercise["rest_seconds"] >= 0)
 
     @staticmethod
-    @db.log_action("workout_add")
     def add_exercise(coach_username, title, member_username, exercise):
         if not WorkoutService.can_edit(coach_username, title, member_username):
             print("You can only manage plans for members of your own classes.")
@@ -411,7 +406,6 @@ class WorkoutService:
         return True
 
     @staticmethod
-    @db.log_action("workout_edit")
     def update_exercise(coach_username, title, member_username, index, field, value):
         if not WorkoutService.can_edit(coach_username, title, member_username):
             print("You can only manage plans for members of your own classes.")

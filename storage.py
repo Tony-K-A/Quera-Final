@@ -1,4 +1,3 @@
-import functools
 import json
 import os
 import tempfile
@@ -16,7 +15,6 @@ ENROLLMENTS = BASE_DIR / "enrollments.json"
 WORKOUTS = BASE_DIR / "workouts.json"
 WALLETS = BASE_DIR / "wallets.json"
 TRANSACTIONS = BASE_DIR / "transactions.txt"
-ACTIVITY_LOG = BASE_DIR / "activity_log.txt"
 
 class DataError(Exception):
     pass
@@ -79,17 +77,3 @@ def read_lines(path):
 
 def now_str():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-def log_action(action):
-    def decorator(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            result = func(*args, **kwargs)
-            who = args[0] if args else "-"
-            try:
-                append_line(ACTIVITY_LOG, f"{now_str()} | {action} | {who} | {'ok' if result else 'failed'}")
-            except DataError:
-                pass
-            return result
-        return wrapper
-    return decorator
